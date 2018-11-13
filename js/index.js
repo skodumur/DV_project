@@ -117,7 +117,7 @@ function onChange() {
 		demo.append( `<div> <i class="fas fa-users pattern-btn" my-val="${i}"></i> <div class='demo-funnel' id='funnel-${i}'>Test</div></div>` );
 	}
 	$(".pattern-btn").click((evt) => {
-		console.log(evt.currentTarget.getAttribute('my-val'));
+        plotStacked(evt.currentTarget.getAttribute('my-val'));
 	})
 		
 	$( ".demo-funnel" ).each(function( index ) {

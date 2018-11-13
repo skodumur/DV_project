@@ -1,4 +1,6 @@
-    var margin = {top: 20, right: 20, bottom: 30, left: 40};
+function plotStacked(index) {
+	d3.select("#stacked").selectAll("*").remove();
+	var margin = {top: 20, right: 20, bottom: 30, left: 40};
 	var width = 600 - margin.left - margin.right;
 	var height = 400 - margin.top - margin.bottom; 
 	var counter = 0;	
@@ -23,7 +25,7 @@
 	var centerLine = d3.axisTop(center).ticks(0);
 
 
-	d3.json("data/StackedBarData.json", function(error, data) {
+	d3.json(`data/sequences${index}.json`, function(error, data) {
 		data = data.urls
 
 		data.forEach(function(d,i) {
@@ -98,3 +100,4 @@
 			.text(function(d, i) { return labels[i]; });
 
 	})
+}	
