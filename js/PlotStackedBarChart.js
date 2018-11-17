@@ -3,7 +3,56 @@ function plotStacked(index) {
 	var margin = {top: 20, right: 20, bottom: 30, left: 40};
 	var width = 600 - margin.left - margin.right;
 	var height = 400 - margin.top - margin.bottom; 
-	var counter = 0;	
+	var counter = 0;
+	var urlMap = {
+		"url": "category",
+		"http://www.acme.com/": "books",
+		"http://www.acme.com/SH55126545/VD55149415": "movies",
+		"http://www.acme.com/SH55126545/VD55163347": "games",
+		"http://www.acme.com/SH55126545/VD55165149": "electronics",
+		"http://www.acme.com/SH55126545/VD55166807": "computers",
+		"http://www.acme.com/SH55126545/VD55170364": "home&garden",
+		"http://www.acme.com/SH55126545/VD55173061": "handbags",
+		"http://www.acme.com/SH55126545/VD55177927": "clothing",
+		"http://www.acme.com/SH55126545/VD55179433": "shoes",
+		"http://www.acme.com/SH55126554/VD55147564": "outdoors",
+		"http://www.acme.com/SH5568487/VD55169229": "automotive",
+		"http://www.acme.com/SH5580165/VD55156528": "clothing",
+		"http://www.acme.com/SH5580165/VD55173281": "tools",
+		"http://www.acme.com/SH5582037/VD5582082": "accessories",
+		"http://www.acme.com/SH5584743/VD55162989": "grocery",
+		"http://www.acme.com/SH5584743/VD55178549": "clothing",
+		"http://www.acme.com/SH5585921/VD55178554": "clothing",
+		"http://www.acme.com/SH5585921/VD55179070": "clothing",
+		"http://www.acme.com/SH5587637/VD55129406": "clothing",
+		"http://www.acme.com/SH5587637/VD55134536": "shoes",
+		"http://www.acme.com/SH5587637/VD55137665": "shoes",
+		"http://www.acme.com/SH5587637/VD55167939": "shoes",
+		"http://www.acme.com/SH5587637/VD55178312": "shoes",
+		"http://www.acme.com/SH5587637/VD55178699": "shoes",
+		"http://www.acme.com/SH559026/VD5568891": "handbags",
+		"http://www.acme.com/SH559026/VD5582785": "handbags",
+		"http://www.acme.com/SH559040/VD55175948": "handbags",
+		"http://www.acme.com/SH559044/VD5586386": "handbags",
+		"http://www.acme.com/SH559056/VD55178907": "handbags",
+		"http://www.acme.com/SH559056/VD55179132": "handbags",
+		"http://www.acme.com/SH559056/VD55181666": "handbags"
+	}
+	var colorCode = {
+		"accessories": "#BBCDA3",
+		"automotive": "#055C81",
+		"books": "#B13C3D",
+		"clothing": "#CCB40C",
+		"computers": "#BBCDA3",
+		"electronics": "#055C81",
+		"games": "#B13C3D",
+		"grocery": "#CCB40C",
+		"handbags": "#BBCDA3",
+		"home&garden": "#055C81",
+		"movies": "#B13C3D",
+		"outdoors": "#CCB40C",
+		"shoes": "#CCB40C"
+	}
 
 	var x = d3.scaleLinear()
 		.range([0, width]);
@@ -32,14 +81,14 @@ function plotStacked(index) {
 
 			var y0_positive = 0;
 			var y0_negative = 0;
-			var keys = d3.keys(data[i]);
-			d.components = keys.map(function(key) {
-				return {key: key, y1: y0_positive, y0: y0_positive += 0.5 };
-				if (d[key]) {
-					return {key: key, y1: y0_positive, y0: y0_positive += 0.5 };
-				} else if (d[key] < 0) {
-					return {key: key, y0: y0_negative, y1: y0_negative += 0.5 };
-				}
+			//var keys = d3.keys(data[i]);
+			d.components = data[i].map(function(key) {
+				return {key: key, y1: y0_positive, y0: y0_positive += 1 };
+				// if (d[key]) {
+				// 	return {key: key, y1: y0_positive, y0: y0_positive += 0.5 };
+				// } else if (d[key] < 0) {
+				// 	return {key: key, y0: y0_negative, y1: y0_negative += 0.5 };
+				// }
 			})
 		})
 
@@ -73,10 +122,12 @@ function plotStacked(index) {
 		entry.selectAll("rect")
 			.data(function(d) { return d.components; })
 			.enter().append("rect")
-			.attr("width", 3)
+			.attr("width", 5)
 			.attr("y", function(d) { return y(d.y0); })
 			.attr("height", function(d) { return Math.abs(y(d.y0) - y(d.y1)); })
-			.style("fill", function(d) { return color(d.key); } );
+			.style("fill", function(d) { 
+				return colorCode[urlMap[d.key]]; 
+			} );
 
 
 		var legend = svg.selectAll(".legend")

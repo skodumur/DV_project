@@ -425,6 +425,7 @@ function () {
           index: index,
           ratio: ratio,
           value: block.value,
+          width: block.width,
           height: _this.settings.height * ratio,
           fill: _this.colorizer.getBlockFill(block.backgroundColor, index, _this.settings.fillType),
           label: {
@@ -610,8 +611,8 @@ function () {
 
 
         if (_this2.settings.dynamicSlope && !_this2.settings.isInverted) {
-          var nextBlockValue = _this2.blocks[i + 1] ? _this2.blocks[i + 1].value : block.value;
-          var widthRatio = nextBlockValue / block.value;
+          var nextBlockValue = _this2.blocks[i + 1] ? _this2.blocks[i + 1].width : block.width;
+          var widthRatio = nextBlockValue / block.width;
           dx = (1 - widthRatio) * (centerX - prevLeftX);
         } // Stop velocity for pinched blocks
 

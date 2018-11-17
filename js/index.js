@@ -92,7 +92,8 @@ function onChange() {
         },
         block: {
             highlight: true,
-			dynamicHeight: true
+            dynamicHeight: true,
+            dynamicSlope: true
         },
         label: {
             format: '{l}',
