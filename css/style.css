@@ -383,7 +383,8 @@
     padding: 5px 5px;
   }
   .pattern-btn{
-	margin-left: 7px;
+    margin-left: 7px;
     margin-bottom: 15px;
+    cursor: pointer;
   }
   

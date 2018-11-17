@@ -238,7 +238,7 @@ function () {
 
       this.settings = {
         width: settings.chart.width,
-        height: settings.chart.height,
+        height: settings.chart.height-20,
         bottomWidth: settings.chart.width * settings.chart.bottomWidth,
         bottomPinch: settings.chart.bottomPinch,
         isInverted: settings.chart.inverted,
@@ -451,7 +451,7 @@ function () {
     key: "drawOntoDom",
     value: function drawOntoDom() {
       // Add the SVG
-      this.svg = Object(d3_selection__WEBPACK_IMPORTED_MODULE_2__["select"])(this.container).append('svg').attr('id', this.id).attr('width', this.settings.width).attr('height', this.settings.height).attr('class', 'svg-class');
+      this.svg = Object(d3_selection__WEBPACK_IMPORTED_MODULE_2__["select"])(this.container).append('svg').attr('id', this.id).attr('width', this.settings.width).attr('height', this.settings.height+20).attr('class', 'svg-class');
 
       var _this$makePaths = this.makePaths();
 
@@ -1145,7 +1145,7 @@ function () {
         return (paths[2][1] + paths[3][1]) / 2 + 1.5 * curveHeight / this.blocks.length;
       }
 
-      return (paths[1][1])+5;
+      return (paths[1][1]+8);
     }
   }]);
 

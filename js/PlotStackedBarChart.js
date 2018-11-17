@@ -1,7 +1,7 @@
 function plotStacked(index) {
 	d3.select("#stacked").selectAll("*").remove();
 	var margin = {top: 20, right: 20, bottom: 30, left: 40};
-	var width = 600 - margin.left - margin.right;
+	var width = parseInt(d3.select("#stacked").style("width")) - margin.left - margin.right;
 	var height = 400 - margin.top - margin.bottom; 
 	var counter = 0;
 	var urlMap = {
