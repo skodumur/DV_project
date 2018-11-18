@@ -1,7 +1,7 @@
-function barchargraph(){
+function barchargraph(size){
   d3.select("#barChart").selectAll("*").remove();
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 600 - margin.left - margin.right,
+    width = size - margin.left - margin.right,
     height = 200 - margin.top - margin.bottom;
 
 // set the ranges

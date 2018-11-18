@@ -52,7 +52,6 @@ function plotStacked(index) {
 		"shoes": "#CCB40C"
 	}
 
-
 	d3.json(`data/sequences${index}.json`, function(error, data) {
 		var size;
 		if(data.urls.length > 60){
@@ -130,5 +129,6 @@ function plotStacked(index) {
 			.style("fill", function(d) { 
 				return colorCode[urlMap[d.key]]; 
 			} );
+			barchargraph(size);
 	})
 }	

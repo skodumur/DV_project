@@ -119,7 +119,7 @@ function onChange() {
 	}
 	$(".pattern-btn").click((evt) => {
         plotStacked(evt.currentTarget.getAttribute('my-val'));
-        barchargraph();
+        // barchargraph();
         $('.legend').css('display', 'block')
 	})
 		
