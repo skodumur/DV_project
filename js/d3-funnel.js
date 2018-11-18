@@ -451,7 +451,7 @@ function () {
     key: "drawOntoDom",
     value: function drawOntoDom() {
       // Add the SVG
-      this.svg = Object(d3_selection__WEBPACK_IMPORTED_MODULE_2__["select"])(this.container).append('svg').attr('id', this.id).attr('width', this.settings.width).attr('height', this.settings.height+20).attr('class', 'svg-class');
+      this.svg = Object(d3_selection__WEBPACK_IMPORTED_MODULE_2__["select"])(this.container).append('svg').attr('id', this.id).attr('width', this.settings.width+25).attr('height', this.settings.height+20).attr('class', 'svg-class');
 
       var _this$makePaths = this.makePaths();
 
@@ -1122,7 +1122,7 @@ function () {
         text.append('tspan').attrs({
           x: x,
           dy: dy
-        }).text(line);
+        }).text(line == 'last'? "": line);
       });
     }
     /**
@@ -1145,7 +1145,7 @@ function () {
         return (paths[2][1] + paths[3][1]) / 2 + 1.5 * curveHeight / this.blocks.length;
       }
 
-      return (paths[1][1]+8);
+      return (paths[2][1] - 10);
     }
   }]);
 

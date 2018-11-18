@@ -124,7 +124,7 @@ function onChange() {
 		
 	$( ".demo-funnel" ).each(function( index ) {
 		let curChart  = new D3Funnel(this);
-		curChart.draw(mainPatternData[index], options);
+		curChart.draw(mainPatternData[mainPatternData.length - index-1], options);
 	});
     // checkboxes.forEach((checkbox) => {
     //     if (checkbox.checked) {
