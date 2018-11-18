@@ -1,8 +1,6 @@
 function plotStacked(index) {
 	d3.select("#stacked").selectAll("*").remove();
 	var margin = {top: 20, right: 20, bottom: 30, left: 40};
-	var width = parseInt(d3.select("#stacked").style("width")) - margin.left - margin.right;
-	var height = 400 - margin.top - margin.bottom; 
 	var counter = 0;
 	var urlMap = {
 		"url": "category",
@@ -39,44 +37,48 @@ function plotStacked(index) {
 		"http://www.acme.com/SH559056/VD55181666": "handbags"
 	}
 	var colorCode = {
-		"accessories": "#BBCDA3",
-		"automotive": "#055C81",
-		"books": "#B13C3D",
-		"clothing": "#CCB40C",
-		"computers": "#BBCDA3",
-		"electronics": "#055C81",
-		"games": "#B13C3D",
-		"grocery": "#CCB40C",
-		"handbags": "#BBCDA3",
-		"home&garden": "#055C81",
-		"movies": "#B13C3D",
-		"outdoors": "#CCB40C",
+		"accessories": "#DBDB8D",
+		"automotive": "#FFBB78",
+		"books": "#FF9896",
+		"clothing": "#FFFF38",
+		"computers": "#98DF8A",
+		"electronics": "#C5B0D5",
+		"games": "#AEC7E8",
+		"grocery": "#F7B6D2",
+		"handbags": "#2F4F4F",
+		"home&garden": "#0000CD",
+		"movies": "#808000",
+		"outdoors": "#483D8B",
 		"shoes": "#CCB40C"
 	}
 
-	var x = d3.scaleLinear()
-		.range([0, width]);
-
-	var y = d3.scaleLinear()
-		.range([height, margin.top]);
-
-	var center = d3.scaleLinear()
-		.range([0, width]);
-
-	var color = d3.scaleOrdinal()
-		.range(["#BBCDA3", "#055C81", "#B13C3D", "#CCB40C","#BBCDA3", "#055C81", "#B13C3D", "#CCB40C","#BBCDA3", "#055C81", "#B13C3D", "#CCB40C"]);
-
-	var labels = ["Production and Income", "Employment, Unemployment, and Hours", "Consumption and Housing", "Sales, Orders, and Inventories"];
-
-	// var xAxis = d3.axisBottom(x).ticks(10);
-	// var yAxis = d3.axisLeft(y).ticks(10);
-
-	var centerLine = d3.axisTop(center).ticks(0);
-
 
 	d3.json(`data/sequences${index}.json`, function(error, data) {
+		var size;
+		if(data.urls.length > 60){
+			size = 600 + (data.urls.length - 60)*10;
+		}
+		else
+			size = 600;
+		var width = size - margin.left - margin.right;
+		var height = 400 - margin.top - margin.bottom; 
 		data = data.urls
+		var x = d3.scaleLinear()
+		.range([0, width]);
 
+		var y = d3.scaleLinear()
+			.range([height, margin.top]);
+
+		var center = d3.scaleLinear()
+			.range([0, width]);
+
+		var color = d3.scaleOrdinal()
+			.range(["#DBDB8D", "#FFBB78", "#FF9896", "#FFFF38","#98DF8A", "#C5B0D5", "#AEC7E8", "#F7B6D2","#2F4F4F", "#0000CD", "#808000", "#483D8B"]);
+
+		var labels = ["accessories","automotive","books","clothing","computers","electronics","games","grocery","handbags","home&garden","movies","outdoors","shoes"
+		];
+
+		var centerLine = d3.axisTop(center).ticks(0)
 		data.forEach(function(d,i) {
 
 			var y0_positive = 0;
@@ -128,27 +130,5 @@ function plotStacked(index) {
 			.style("fill", function(d) { 
 				return colorCode[urlMap[d.key]]; 
 			} );
-
-
-		var legend = svg.selectAll(".legend")
-			.data(color.domain())
-			.enter().append("g")
-			.attr("class", "legend");
-			//.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-		legend.append("rect")
-			.attr("x", 675)
-			.attr("y", function(d, i) { return i * 25 + 300 })
-			.attr("width", 18)
-			.attr("height", 18)
-			.style("fill", color );
-
-		legend.append("text")
-			.attr("x", 700)
-			.attr("y", function(d, i) { return i * 25 + 309; })
-			.attr("dy", ".35em")
-			.style("text-anchor", "start")
-			.text(function(d, i) { return labels[i]; });
-
 	})
 }	

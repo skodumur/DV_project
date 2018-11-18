@@ -387,4 +387,29 @@
     margin-bottom: 15px;
     cursor: pointer;
   }
-  
+  .sequence {
+    overflow-x: scroll;
+  }
+  .foo {
+    float: left;
+    width: 10px;
+    height: 10px;
+    margin: 5px;
+    /* border: 1px solid rgba(0, 0, 0, .2); */
+    }
+
+    .color1 {
+    background: #13b4ff;
+    }
+
+    .color2 {
+    background: #ab3fdd;
+    }
+
+    .color3 {
+    background: #ae163e;
+    }
+    .legend{
+      padding: 0;
+      display: none
+    }

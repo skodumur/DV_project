@@ -120,6 +120,7 @@ function onChange() {
 	$(".pattern-btn").click((evt) => {
         plotStacked(evt.currentTarget.getAttribute('my-val'));
         barchargraph();
+        $('.legend').css('display', 'block')
 	})
 		
 	$( ".demo-funnel" ).each(function( index ) {
