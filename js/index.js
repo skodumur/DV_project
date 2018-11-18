@@ -1,3 +1,18 @@
+const colorCode = {
+	"accessories": "#DBDB8D",
+	"automotive": "#FFBB78",
+	"books": "#FF9896",
+	"clothing": "#2F4F4F",
+	"computers": "#98DF8A",
+	"electronics": "#C5B0D5",
+	"games": "#AEC7E8",
+	"grocery": "#F7B6D2",
+	"handbags": "#FFFF38",
+	"home&garden": "#0000CD",
+	"movies": "#808000",
+	"outdoors": "#483D8B",
+	"shoes": "#CCB40C"
+}
 const settings = {
     curved: {
         chart: {
@@ -138,9 +153,6 @@ function onChange() {
     //     options.chart.bottomWidth = 1 / 3;
     //     data = data.reverse();
     // }
-
-    
-	console.log(mainPatternData);
 	// var ctx = document.getElementsByClassName("svg-class")[0],
 // textElm = ctx.getElementsByClassName("svg-text")[0],
 // SVGRect = textElm.getBBox();

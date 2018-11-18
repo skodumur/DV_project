@@ -1080,7 +1080,6 @@ function () {
 
       var x = this.settings.width / 2;
       var y = this.getTextY(paths);
-	  var rect = group.append('rect')
       var text = group.append('text').attrs({
         x: x,
         y: y,
@@ -1089,14 +1088,13 @@ function () {
         'text-anchor': 'middle',
         'dominant-baseline': 'middle',
         'pointer-events': 'none',
-		'class': 'svg-text'
+		    'class': 'svg-text'
       }); // Add font-family, if exists
-
       if (this.settings.label.fontFamily !== null) {
         text.attr ('font-family', this.settings.label.fontFamily);
       }
 
-      this.addLabelLines(text, formattedLabel, x);
+      this.addLabelLines(text, formattedLabel, x, group);
     }
     /**
      * Add <tspan> elements for each line of the formatted label.
@@ -1110,7 +1108,7 @@ function () {
 
   }, {
     key: "addLabelLines",
-    value: function addLabelLines(text, formattedLabel, x) {
+    value: function addLabelLines(text, formattedLabel, x, group) {
       var lines = formattedLabel.split('\n');
       var lineHeight = 20; // dy will signify the change from the initial height y
       // We need to initially start the first line at the very top, factoring
@@ -1124,6 +1122,18 @@ function () {
           dy: dy
         }).text(line == 'last'? "": line);
       });
+      let bbox = text.node().getBBox();
+      var rect = group.append("rect")
+                  .attr("x", bbox.x)
+                  .attr("y", bbox.y)
+                  .attr("width", bbox.width+2)
+                  .attr("height", bbox.height)
+                  .attr("rx", 3)
+                  .attr("ry", 3)
+                  .style("fill", colorCode[lines[0]])
+                  .style("fill-opacity", ".3")
+                  .style("stroke", "#666")
+                  .style("stroke-width", "1.5px");
     }
     /**
      * Returns the y position of the given label's text. This is determined by

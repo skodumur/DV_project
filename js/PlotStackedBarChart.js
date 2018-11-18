@@ -36,21 +36,6 @@ function plotStacked(index) {
 		"http://www.acme.com/SH559056/VD55179132": "handbags",
 		"http://www.acme.com/SH559056/VD55181666": "handbags"
 	}
-	var colorCode = {
-		"accessories": "#DBDB8D",
-		"automotive": "#FFBB78",
-		"books": "#FF9896",
-		"clothing": "#2F4F4F",
-		"computers": "#98DF8A",
-		"electronics": "#C5B0D5",
-		"games": "#AEC7E8",
-		"grocery": "#F7B6D2",
-		"handbags": "#FFFF38",
-		"home&garden": "#0000CD",
-		"movies": "#808000",
-		"outdoors": "#483D8B",
-		"shoes": "#CCB40C"
-	}
 
 	d3.json(`data/sequences${index}.json`, function(error, data) {
 		var size;

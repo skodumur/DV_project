@@ -361,10 +361,11 @@
   }
   
   .demo {
-    padding: 10px 30px;
+    padding: 10px 0;
     display: flex;
     overflow-x: scroll;
     height: 800px;
+    border: solid 1px;
   }
   
   .demo form label {
