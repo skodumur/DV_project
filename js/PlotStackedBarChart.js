@@ -40,12 +40,12 @@ function plotStacked(index) {
 		"accessories": "#DBDB8D",
 		"automotive": "#FFBB78",
 		"books": "#FF9896",
-		"clothing": "#FFFF38",
+		"clothing": "#2F4F4F",
 		"computers": "#98DF8A",
 		"electronics": "#C5B0D5",
 		"games": "#AEC7E8",
 		"grocery": "#F7B6D2",
-		"handbags": "#2F4F4F",
+		"handbags": "#FFFF38",
 		"home&garden": "#0000CD",
 		"movies": "#808000",
 		"outdoors": "#483D8B",
@@ -73,7 +73,7 @@ function plotStacked(index) {
 			.range([0, width]);
 
 		var color = d3.scaleOrdinal()
-			.range(["#DBDB8D", "#FFBB78", "#FF9896", "#FFFF38","#98DF8A", "#C5B0D5", "#AEC7E8", "#F7B6D2","#2F4F4F", "#0000CD", "#808000", "#483D8B"]);
+			.range(["#DBDB8D", "#FFBB78", "#FF9896", "#2F4F4F","#98DF8A", "#C5B0D5", "#AEC7E8", "#F7B6D2","#FFFF38", "#0000CD", "#808000", "#483D8B"]);
 
 		var labels = ["accessories","automotive","books","clothing","computers","electronics","games","grocery","handbags","home&garden","movies","outdoors","shoes"
 		];
@@ -85,7 +85,7 @@ function plotStacked(index) {
 			var y0_negative = 0;
 			//var keys = d3.keys(data[i]);
 			d.components = data[i].map(function(key) {
-				return {key: key, y1: y0_positive, y0: y0_positive += 1 };
+				return {key: key, y1: y0_positive, y0: y0_positive += 1.5 };
 				// if (d[key]) {
 				// 	return {key: key, y1: y0_positive, y0: y0_positive += 0.5 };
 				// } else if (d[key] < 0) {
