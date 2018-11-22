@@ -114,6 +114,6 @@ function plotStacked(index) {
 			.style("fill", function(d) { 
 				return colorCode[urlMap[d.key]]; 
 			} );
-			barchargraph(size);
+			barchargraph(size, index);
 	})
 }	
