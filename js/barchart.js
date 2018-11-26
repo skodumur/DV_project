@@ -2,7 +2,7 @@ function barchargraph(size, index){
   d3.select("#barChart").selectAll("*").remove();
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = size - margin.left - margin.right,
-    height = 200 - margin.top - margin.bottom;
+    height = 150 - margin.top - margin.bottom;
 
 // set the ranges
 var x = d3.scaleBand()
@@ -10,7 +10,9 @@ var x = d3.scaleBand()
           .padding(0.1);
 var y = d3.scaleLinear()
           .range([height, 0]);
-          
+
+var yAxis = d3.axisLeft().scale(y)
+    .ticks(3);
 // append the svg object to the body of the page
 // append a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
@@ -32,7 +34,9 @@ d3.csv(`data/vistorCount${index}.csv`, function(error, data) {
 
   // Scale the range of the data in the domains
   x.domain(data.map(function(d) { return d.sequence; }));
-  y.domain([0, d3.max(data, function(d) { return d.count; })]);
+  // y.domain([0, d3.max(data, function(d) { return d.count; })]);
+  y.domain([0, 3]);
+
 
   // append the rectangles for the bar chart
   svg1.selectAll(".bar")
@@ -51,7 +55,9 @@ d3.csv(`data/vistorCount${index}.csv`, function(error, data) {
 
   // add the y Axis
   svg1.append("g")
-      .call(d3.axisLeft(y));
+      .call(yAxis);
+
+
 
 });
 }

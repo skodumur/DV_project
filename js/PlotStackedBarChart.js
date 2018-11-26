@@ -99,6 +99,9 @@ function plotStacked(index) {
 			.attr("transform", "translate(0," + y(0) + ")")
 			.call(centerLine);
 
+		var tooltip = svg.append("g")
+		.style("display", "none");
+
 		var entry = svg.selectAll(".entry")
 			.data(data)
 			.enter().append("g")
@@ -106,14 +109,46 @@ function plotStacked(index) {
 			.attr("transform", function(d) { return "translate(" + x(counter++) + ", 0)"; });
 
 		entry.selectAll("rect")
-			.data(function(d) { return d.components; })
+			.data(function(d) {
+				return d.components;
+			 })
 			.enter().append("rect")
 			.attr("width", 5)
 			.attr("y", function(d) { return y(d.y0); })
-			.attr("height", function(d) { return Math.abs(y(d.y0) - y(d.y1)); })
+			.attr("height", function(d) { return  Math.abs(y(d.y0) - y(d.y1)+0.5); })
 			.style("fill", function(d) { 
 				return colorCode[urlMap[d.key]]; 
-			} );
-			barchargraph(size, index);
+			} )
+			.on("mouseover", function() { 
+				console.log("mouseover")
+				tooltip.style("display", null); 
+			})
+			.on("mouseout", function() {
+				console.log("mouseout") 
+				tooltip.style("display", "none"); 
+			})
+			 .on("mousemove", function(d) {
+				console.log("mousemove")
+			   var xPosition = d3.mouse(this)[0] - 1;
+			   var yPosition = d3.mouse(this)[1] - 1;
+			   tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+			   tooltip.select("text").text(d.key);
+			 });
+
+		
+			
+		tooltip.append("rect")
+			.attr("width", 60)
+			.attr("height", 60)
+			.attr("fill", "white")
+			.style("opacity", 0.5);
+		
+		tooltip.append("text")
+			.attr("x", 30)
+			.attr("dy", "1.2em")
+			.style("text-anchor", "middle")
+			.attr("font-size", "12px")
+			.attr("font-weight", "bold");
+	barchargraph(size, index);
 	})
 }	
