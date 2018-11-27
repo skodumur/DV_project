@@ -384,7 +384,7 @@
     padding: 5px 5px;
   }
   .pattern-btn{
-    margin-left: 7px;
+    margin-left: 11px;
     margin-bottom: 15px;
     cursor: pointer;
   }
@@ -413,4 +413,11 @@
     .legend{
       padding: 0;
       display: none
+    }
+    .custom-select{
+      width: auto;
+    }
+    .context svg{
+      margin-left: 80px;
+      margin-top: 45px;
     }

@@ -16,40 +16,66 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-	<div class="row">
-        <div class="col-2" ></div>
+    <div class="col-11 row" style="height: 60px; padding: 10px; font-size:12px; background-color: rgb(224, 224, 224); margin: auto">
+        <div class="col-1">
+                <select class="custom-select">
+                        <option selected>Funnel</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
+        </div>
+        <div class="col-2">
+            <label>Dataset: </label>
+                <select class="custom-select">
+                        <option selected>Shopping Website</option>
+                        <option value="1">ECommerce</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
+        </div>
+        <div class="col-2">
+                <label><b>Vertical Scale: </b></label>
+                <select class="custom-select">
+                        <option selected>Log</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
+        </div>
+        <div class="col-2">
+                <label>Color By: </label>
+                <select class="custom-select">
+                        <option selected>Page Category</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
+        </div>
+        <div class="col-3">
+                <label>Order By: </label>
+                <select class="custom-select">
+                        <option selected>Grouping same Pages</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
+        </div>
+        <div class="col-2" style="margin-top: 10px;">
+                <label>Highligth key Events: </label>
+                <input type="checkbox">
+        </div>
+    </div>
+	<div class="row" style="margin-top: 15px;">
+        
+        <div class="col-2 context" >
+        </div>
         <div class="demo col-4" ></div>
         <div class="sequence col-5" >
             <div id="barChart"></div>
             <div id="stacked"></div>
         </div>
         <div class="col-1 legend">
-            <div class="foo" style = "background: #DBDB8D"></div>
-            <h6>accessories</h6>
-            <div class="foo" style = "background: #FFBB78"></div>
-            <h6>automotive</h6>
-            <div class="foo" style = "background: #FF9896"></div>
-            <h6>books</h6>
-            <div class="foo" style = "background: #FFFF38"></div>
-            <h6>clothing</h6>
-            <div class="foo" style = "background: #98DF8A"></div>
-            <h6>computers</h6>
-            <div class="foo" style = "background: #C5B0D5"></div>
-            <h6>electronics</h6>
-            <div class="foo" style = "background: #AEC7E8"></div>
-            <h6>games</h6>
-            <div class="foo" style = "background: #F7B6D2"></div>
-            <h6>grocery</h6>
-            <div class="foo" style = "background: #2F4F4F"></div>
-            <h6>handbags</h6>
-            <div class="foo" style = "background: #0000CD"></div>
-            <h6>home</h6>
-            <div class="foo" style = "background: #808000"></div>
-            <h6>movies</h6>
-            <div class="foo" style = "background: #483D8B"></div>
-            <h6>outdoors</h6>
-            <div class="foo" style = "background: #CCB40C"></div>
-            <h6>shoes</h6>
         </div>
 	</div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>

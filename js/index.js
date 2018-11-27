@@ -1,18 +1,23 @@
 const colorCode = {
 	"accessories": "#DBDB8D",
-	"automotive": "#FFBB78",
+	"automotive": "#FFFF38",
 	"books": "#FF9896",
-	"clothing": "#2F4F4F",
+	"clothing": "#38b0b0",
 	"computers": "#98DF8A",
 	"electronics": "#C5B0D5",
 	"games": "#AEC7E8",
 	"grocery": "#F7B6D2",
-	"handbags": "#FFFF38",
-	"home&garden": "#0000CD",
+	"handbags": "#FFBB78",
+	"home": "#cd0000bf",
 	"movies": "#808000",
 	"outdoors": "#483D8B",
-	"shoes": "#CCB40C"
+	"shoes": "#229f3dbf"
 }
+for (let prop in colorCode) {
+    console.log(prop, colorCode[prop]);
+    $('.legend').append(`<div class="foo" style = "background: ${colorCode[prop]}"></div><h6>${prop}</h6>`)
+}
+$('.legend').append()
 const settings = {
     curved: {
         chart: {
@@ -102,7 +107,7 @@ function onChange() {
     let options = {
         chart: {
             bottomWidth: 1 / 8,
-            width:35,
+            width:45,
             height:700
         },
         block: {
@@ -113,7 +118,7 @@ function onChange() {
         label: {
             format: '{l}',
             fill: 'black',
-            fontSize: '11px'
+            fontSize: '9px'
         },
         events: {
             click: {
@@ -140,7 +145,11 @@ function onChange() {
 		
 	$( ".demo-funnel" ).each(function( index ) {
 		let curChart  = new D3Funnel(this);
-		curChart.draw(mainPatternData[mainPatternData.length - index-1], options);
+        curChart.draw(mainPatternData[mainPatternData.length - index-1], options);
+        if(index == 5) {
+            let context = new D3Funnel(".context");
+            context.draw(mainPatternData[mainPatternData.length - index-1], options);
+        }
 	});
     // checkboxes.forEach((checkbox) => {
     //     if (checkbox.checked) {

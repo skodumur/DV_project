@@ -426,7 +426,7 @@ function () {
           ratio: ratio,
           value: block.value,
           width: block.width,
-          height: _this.settings.height * ratio,
+          height: block.value,
           fill: _this.colorizer.getBlockFill(block.backgroundColor, index, _this.settings.fillType),
           label: {
             enabled: !block.hideLabel,
@@ -529,7 +529,6 @@ function () {
       if (this.settings.bottomPinch > 0) {
         this.blocks.forEach(function (block, i) {
           var height = totalHeight * block.ratio; // Add greedy minimum height
-
           if (_this2.settings.minHeight !== 0) {
             height += _this2.settings.minHeight;
           } // Account for any curvature
@@ -560,8 +559,8 @@ function () {
         // Make heights proportional to block weight
         if (_this2.settings.dynamicHeight) {
           // Slice off the height proportional to this block
-          dy = totalHeight * block.ratio; // Add greedy minimum height
-
+          //dy = totalHeight * block.ratio; // Add greedy minimum height
+          dy = block.height*5;
           if (_this2.settings.minHeight !== 0) {
             dy += _this2.settings.minHeight;
           } // Account for any curvature
@@ -1126,12 +1125,12 @@ function () {
       var rect = group.append("rect")
                   .attr("x", bbox.x)
                   .attr("y", bbox.y)
-                  .attr("width", bbox.width+2)
+                  .attr("width", bbox.width+3)
                   .attr("height", bbox.height)
                   .attr("rx", 3)
                   .attr("ry", 3)
                   .style("fill", colorCode[lines[0]])
-                  .style("fill-opacity", ".3")
+                  .style("fill-opacity", ".5")
                   .style("stroke", "#666")
                   .style("stroke-width", "1.5px");
     }
@@ -1155,7 +1154,7 @@ function () {
         return (paths[2][1] + paths[3][1]) / 2 + 1.5 * curveHeight / this.blocks.length;
       }
 
-      return (paths[2][1] - 10);
+      return (paths[2][1] - 5);
     }
   }]);
 
