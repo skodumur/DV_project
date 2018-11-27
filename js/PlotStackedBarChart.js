@@ -1,4 +1,11 @@
-function plotStacked(index) {
+function plotStacked(index, isHighlight) {
+	const highlights = [];
+	let curData = mainPatternData[index];
+	for(let i in curData){
+		highlights.push(curData[i].label);
+	}
+	highlights.splice(-1,1);
+	//console.log(highlights);
 	d3.select("#stacked").selectAll("*").remove();
 	var margin = {top: 20, right: 20, bottom: 30, left: 40};
 	var counter = 0;
@@ -9,7 +16,7 @@ function plotStacked(index) {
 		"http://www.acme.com/SH55126545/VD55163347": "games",
 		"http://www.acme.com/SH55126545/VD55165149": "electronics",
 		"http://www.acme.com/SH55126545/VD55166807": "computers",
-		"http://www.acme.com/SH55126545/VD55170364": "home&garden",
+		"http://www.acme.com/SH55126545/VD55170364": "home",
 		"http://www.acme.com/SH55126545/VD55173061": "handbags",
 		"http://www.acme.com/SH55126545/VD55177927": "clothing",
 		"http://www.acme.com/SH55126545/VD55179433": "shoes",
@@ -59,22 +66,19 @@ function plotStacked(index) {
 		var color = d3.scaleOrdinal()
 			.range(["#DBDB8D", "#FFBB78", "#FF9896", "#2F4F4F","#98DF8A", "#C5B0D5", "#AEC7E8", "#F7B6D2","#FFFF38", "#0000CD", "#808000", "#483D8B"]);
 
-		var labels = ["accessories","automotive","books","clothing","computers","electronics","games","grocery","handbags","home&garden","movies","outdoors","shoes"
-		];
-
 		var centerLine = d3.axisTop(center).ticks(0)
 		data.forEach(function(d,i) {
 
 			var y0_positive = 0;
 			var y0_negative = 0;
-			//var keys = d3.keys(data[i]);
+			let newArr = highlights.slice();
 			d.components = data[i].map(function(key) {
-				return {key: key, y1: y0_positive, y0: y0_positive += 1.5 };
-				// if (d[key]) {
-				// 	return {key: key, y1: y0_positive, y0: y0_positive += 0.5 };
-				// } else if (d[key] < 0) {
-				// 	return {key: key, y0: y0_negative, y1: y0_negative += 0.5 };
-				// }
+				let obj = {key: key, y1: y0_positive, y0: y0_positive += 1.5 };
+				if (newArr[0] == urlMap[key] && isHighlight) {
+					obj.highlight = true;
+					newArr.shift();
+				}
+				return obj;
 			})
 		})
 
@@ -99,23 +103,27 @@ function plotStacked(index) {
 			.attr("transform", "translate(0," + y(0) + ")")
 			.call(centerLine);
 
-		var tooltip = svg.append("g")
-		.style("display", "none");
-
+		var tooltip = svg.append("g").style("display", "none");
 		var entry = svg.selectAll(".entry")
 			.data(data)
 			.enter().append("g")
 			.attr("class", "g")
-			.attr("transform", function(d) { return "translate(" + x(counter++) + ", 0)"; });
-
+			.attr("transform", function(d) {
+				return "translate(" + x(counter++) + ", 0)"; });
 		entry.selectAll("rect")
 			.data(function(d) {
 				return d.components;
 			 })
 			.enter().append("rect")
 			.attr("width", 5)
-			.attr("y", function(d) { return y(d.y0); })
+			.attr("y", function(d) { 
+				return y(d.y0); 
+			})
 			.attr("height", function(d) { return  Math.abs(y(d.y0) - y(d.y1)+0.5); })
+			.attr('stroke', function(d) {
+				return d.highlight &&'#000000';
+				})
+			.attr("stroke-width", 2)
 			.style("fill", function(d) { 
 				return colorCode[urlMap[d.key]]; 
 			} )
@@ -150,5 +158,6 @@ function plotStacked(index) {
 			.attr("font-size", "12px")
 			.attr("font-weight", "bold");
 	barchargraph(size, index);
+
 	})
 }	

@@ -13,6 +13,7 @@ const colorCode = {
 	"outdoors": "#483D8B",
 	"shoes": "#229f3dbf"
 }
+let selectedIndex = -1;
 for (let prop in colorCode) {
     console.log(prop, colorCode[prop]);
     $('.legend').append(`<div class="foo" style = "background: ${colorCode[prop]}"></div><h6>${prop}</h6>`)
@@ -85,9 +86,6 @@ const settings = {
     },
 };
 const chart = new D3Funnel('#funnel');
-//const chart2 = new D3Funnel('#funnel2');
-//const checkboxes = [...document.querySelectorAll('input')];
-//const color = document.querySelector('[value="color"]');
 
 function onChange() {
     let data = [];
@@ -123,22 +121,18 @@ function onChange() {
         events: {
             click: {
                 block(d) {
-                    //d.fill.type = "gradient"
-                    //debugger;
                     alert(d.label.raw);
                 },
             },
         }
     };
-	function test(i){
-		console.log(i);
-	}
 	let demo = $( ".demo" );
 	for(i in mainPatternData) {
-		demo.append( `<div> <i class="fas fa-users pattern-btn" my-val="${i}"></i> <div class='demo-funnel' id='funnel-${i}'>Test</div></div>` );
+		demo.append( `<div> <i class="fa fa-users pattern-btn" my-val="${mainPatternData.length - i-1}"></i> <div class='demo-funnel' id='funnel-${mainPatternData.length - i-1}'>Test</div></div>` );
 	}
 	$(".pattern-btn").click((evt) => {
-        plotStacked(evt.currentTarget.getAttribute('my-val'));
+        selectedIndex = evt.currentTarget.getAttribute('my-val');
+        plotStacked(selectedIndex);
         // barchargraph();
         $('.legend').css('display', 'block')
 	})
@@ -151,35 +145,8 @@ function onChange() {
             context.draw(mainPatternData[mainPatternData.length - index-1], options);
         }
 	});
-    // checkboxes.forEach((checkbox) => {
-    //     if (checkbox.checked) {
-    //         options = _.merge(options, settings[checkbox.value]);
-    //     }
-    // });
-
-    // Reverse data for inversion
-    // if (options.chart.inverted) {
-    //     options.chart.bottomWidth = 1 / 3;
-    //     data = data.reverse();
-    // }
-	// var ctx = document.getElementsByClassName("svg-class")[0],
-// textElm = ctx.getElementsByClassName("svg-text")[0],
-// SVGRect = textElm.getBBox();
-
-// var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    // rect.setAttribute("x", SVGRect.x);
-    // rect.setAttribute("y", SVGRect.y);
-    // rect.setAttribute("width", SVGRect.width);
-    // rect.setAttribute("height", SVGRect.height);
-    // rect.setAttribute("fill", "yellow");
-    // ctx.insertBefore(rect, textElm);
+}
+function highlightEvent(evt) {
+    plotStacked(selectedIndex, evt.target.checked)
 }
 onChange();
-
-// Bind event listeners
-// checkboxes.forEach((checkbox) => {
-//     checkbox.addEventListener('change', onChange);
-// });
-
-// Trigger change event for initial render
-//checkboxes[0].dispatchEvent(new CustomEvent('change'));

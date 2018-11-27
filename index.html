@@ -55,7 +55,7 @@
         </div>
         <div class="col-2" style="margin-top: 10px;">
                 <label>Highligth key Events: </label>
-                <input type="checkbox">
+                <input type="checkbox" id="keyEvent" onchange="highlightEvent(event)">
         </div>
         <div class="col-2" style="display:flex">
             <label style="margin-top: 5px;"> Overview &nbsp;</label>
@@ -69,7 +69,9 @@
     </div>
 	<div class="row" style="margin-top: 15px;">
         
-        <div class="col-2 context" >
+        <div class="col-2">
+                <i class="fa fa-users context-icon" ></i>
+            <div class="context"></div>
         </div>
         <div class="demo col-4" ></div>
         <div class="sequence col-5" >
