@@ -14,6 +14,7 @@ const colorCode = {
 	"shoes": "#229f3dbf"
 }
 let selectedIndex = -1;
+let isHighlight = false;
 for (let prop in colorCode) {
     console.log(prop, colorCode[prop]);
     $('.legend').append(`<div class="foo" style = "background: ${colorCode[prop]}"></div><h6>${prop}</h6>`)
@@ -135,6 +136,7 @@ function onChange() {
         // plotStacked(selectedIndex);
         plotStacked(selectedIndex, null, 'handbags')
         barchargraph();
+
         $('.legend').css('display', 'block')
 	})
 		
@@ -148,6 +150,7 @@ function onChange() {
 	});
 }
 function highlightEvent(evt) {
-    plotStacked(selectedIndex, evt.target.checked)
+    isHighlight = evt.target.checked;
+    plotStacked(selectedIndex, isHighlight)
 }
 onChange();
