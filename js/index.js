@@ -15,6 +15,8 @@ const colorCode = {
 }
 let selectedIndex = -1;
 let isHighlight = false;
+let clickedLabel;
+let clickedSegment;
 for (let prop in colorCode) {
     console.log(prop, colorCode[prop]);
     $('.legend').append(`<div class="foo" style = "background: ${colorCode[prop]}"></div><h6>${prop}</h6>`)
@@ -122,9 +124,16 @@ function onChange() {
         events: {
             click: {
                 block(d) {
-                    alert(d.label.raw);
+                    clickedSegment = d.label.raw;
+                    plotStacked(selectedIndex, isHighlight, clickedLabel, clickedSegment);
                 },
             },
+            lableClick: {
+                myFun(d) {
+                    clickedLable = d;
+                    plotStacked(selectedIndex, isHighlight, clickedLable);
+                }
+            }
         }
     };
 	let demo = $( ".demo" );
@@ -133,10 +142,7 @@ function onChange() {
 	}
 	$(".pattern-btn").click((evt) => {
         selectedIndex = evt.currentTarget.getAttribute('my-val');
-        // plotStacked(selectedIndex);
-        plotStacked(selectedIndex, null, 'handbags')
-        barchargraph();
-
+        plotStacked(selectedIndex)
         $('.legend').css('display', 'block')
 	})
 		

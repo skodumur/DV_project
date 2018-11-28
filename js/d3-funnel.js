@@ -255,7 +255,8 @@ function () {
         minHeight: settings.block.minHeight,
         label: settings.label,
         tooltip: settings.tooltip,
-        onBlockClick: settings.events.click.block
+        onBlockClick: settings.events.click.block,
+        onLableClick: settings.events.lableClick.myFun,
       };
       this.setBlocks(data);
     }
@@ -1114,25 +1115,30 @@ function () {
       // in the other number of lines
 
       var initialDy = -1 * lineHeight * (lines.length - 1) / 2;
-      lines.forEach(function (line, i) {
+      lines.forEach((line, i) => {
         var dy = i === 0 ? initialDy : lineHeight;
         text.append('tspan').attrs({
           x: x,
           dy: dy
         }).text(line == 'last'? "": line);
+        let bbox = text.node().getBBox();
+        var rect = group.append("rect")
+                    .attr("x", bbox.x)
+                    .attr("y", bbox.y)
+                    .attr("width", bbox.width+3)
+                    .attr("height", bbox.height)
+                    .attr("rx", 3)
+                    .attr("ry", 3)
+                    .style("fill", colorCode[lines[0]])
+                    .style("fill-opacity", ".5")
+                    .style("stroke", "#666")
+                    .style("stroke-width", "1.5px")
+                    .style("cursor", "pointer");
+        rect.on('click', () => {
+          this.settings.onLableClick(line);
+        });
       });
-      let bbox = text.node().getBBox();
-      var rect = group.append("rect")
-                  .attr("x", bbox.x)
-                  .attr("y", bbox.y)
-                  .attr("width", bbox.width+3)
-                  .attr("height", bbox.height)
-                  .attr("rx", 3)
-                  .attr("ry", 3)
-                  .style("fill", colorCode[lines[0]])
-                  .style("fill-opacity", ".5")
-                  .style("stroke", "#666")
-                  .style("stroke-width", "1.5px");
+
     }
     /**
      * Returns the y position of the given label's text. This is determined by

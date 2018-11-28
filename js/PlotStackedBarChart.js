@@ -1,11 +1,18 @@
-function plotStacked(index, isHighlight, categoryVal) {
+function plotStacked(index, isHighlight, clickedLabel, clickedSegment) {
 	const highlights = [];
 	var check = 0;
 	let curData = mainPatternData[index];
+	
+	
 	for(let i in curData){
 		highlights.push(curData[i].label);
 	}
 	highlights.splice(-1,1);
+	let clickedIndex = clickedSegment && highlights.indexOf(clickedSegment);
+	let startPoint;
+	if (clickedIndex > 0) {
+		startPoint = highlights[clickedIndex-1];
+	}
 	//console.log(highlights);
 	d3.select("#stacked").selectAll("*").remove();
 	var margin = {top: 20, right: 20, bottom: 30, left: 40};
@@ -57,7 +64,49 @@ function plotStacked(index, isHighlight, categoryVal) {
 			size = 600;
 		var width = size - margin.left - margin.right;
 		var height = 400 - margin.top - margin.bottom; 
-		data = data.urls
+		data = data.urls;
+		if (startPoint || clickedSegment) {
+			for (i in data) {
+				let dArr = data[i];
+				let newArr = highlights.slice();
+				let startFound = false;
+				let endFound = false;
+				let result = []
+				for(j in dArr) {
+					let d = dArr[j];
+					if (!startPoint) {
+						result.push(d);
+						if (clickedSegment == urlMap[d]) {
+							data[i] = result;
+							break
+						}
+					} 
+					else {
+						if (newArr[0] == urlMap[d]) {
+							let found = newArr.shift();
+							if (found == startPoint) {
+								result.push(d);
+								startFound = true;
+							} else if (found == clickedSegment) {
+								result.push(d);
+								data[i] = result;
+								break;
+							}
+						} else if (startFound) {
+							result.push(d);
+						}
+					}
+				}
+			};
+		}
+		var x = d3.scaleLinear()
+		.range([0, width]);
+
+		var y = d3.scaleLinear()
+			.range([height, margin.top]);
+
+		var center = d3.scaleLinear()
+			.range([0, width]);
 
 		var color = d3.scaleOrdinal()
 			.range(["#DBDB8D", "#FFBB78", "#FF9896", "#2F4F4F","#98DF8A", "#C5B0D5", "#AEC7E8", "#F7B6D2","#FFFF38", "#0000CD", "#808000", "#483D8B"]);
@@ -76,10 +125,10 @@ function plotStacked(index, isHighlight, categoryVal) {
 			ymin = 0;
 			ymax = 0;
 			d.components = data[i].map(function(key) {
-				if(categoryVal){
+				if(clickedLabel){
 					let obj ;
 					if(check == 0){
-						if(newArr[0] == urlMap[key] && categoryVal == urlMap[key]){
+						if(newArr[0] == urlMap[key] && clickedLabel == urlMap[key]){
 							obj = {key: key, y1: y0_positive, y0: y0_positive += barHeight };
 							ymax++;
 							check = 1;
