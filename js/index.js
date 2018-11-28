@@ -132,8 +132,9 @@ function onChange() {
 	}
 	$(".pattern-btn").click((evt) => {
         selectedIndex = evt.currentTarget.getAttribute('my-val');
-        plotStacked(selectedIndex);
-        // barchargraph();
+        // plotStacked(selectedIndex);
+        plotStacked(selectedIndex, null, 'handbags')
+        barchargraph();
         $('.legend').css('display', 'block')
 	})
 		

@@ -1,5 +1,6 @@
-function plotStacked(index, isHighlight) {
+function plotStacked(index, isHighlight, categoryVal) {
 	const highlights = [];
+	var check = 0;
 	let curData = mainPatternData[index];
 	for(let i in curData){
 		highlights.push(curData[i].label);
@@ -8,6 +9,7 @@ function plotStacked(index, isHighlight) {
 	//console.log(highlights);
 	d3.select("#stacked").selectAll("*").remove();
 	var margin = {top: 20, right: 20, bottom: 30, left: 40};
+	let barHeight = 1;
 	var counter = 0;
 	var urlMap = {
 		"url": "category",
@@ -46,6 +48,8 @@ function plotStacked(index, isHighlight) {
 
 	d3.json(`data/sequences${index}.json`, function(error, data) {
 		var size;
+		let ymin = ymax = 0;
+		let y_min = y_max = 0;
 		if(data.urls.length > 60){
 			size = 600 + (data.urls.length - 60)*10;
 		}
@@ -54,6 +58,68 @@ function plotStacked(index, isHighlight) {
 		var width = size - margin.left - margin.right;
 		var height = 400 - margin.top - margin.bottom; 
 		data = data.urls
+
+		var color = d3.scaleOrdinal()
+			.range(["#DBDB8D", "#FFBB78", "#FF9896", "#2F4F4F","#98DF8A", "#C5B0D5", "#AEC7E8", "#F7B6D2","#FFFF38", "#0000CD", "#808000", "#483D8B"]);
+
+		data.forEach(function(d,i) {
+
+			var y0_positive = 0;
+			var y0_negative = 0;
+			let newArr = highlights.slice();
+			check = 0;
+			if(ymin > y_min)
+				y_min = ymin;
+			if(ymax > y_max)
+				y_max = ymax;
+
+			ymin = 0;
+			ymax = 0;
+			d.components = data[i].map(function(key) {
+				if(categoryVal){
+					let obj ;
+					if(check == 0){
+						if(newArr[0] == urlMap[key] && categoryVal == urlMap[key]){
+							obj = {key: key, y1: y0_positive, y0: y0_positive += barHeight };
+							ymax++;
+							check = 1;
+						}
+						else if(newArr[0] == urlMap[key]){
+							newArr.shift();
+							obj = {key: key, y0: y0_negative, y1: y0_negative -= barHeight };
+							ymin++;
+						}
+						else{
+							obj = {key: key, y0: y0_negative, y1: y0_negative -= barHeight };
+							ymin++
+						}
+					}
+					else{
+						 obj = {key: key, y1: y0_positive, y0: y0_positive += barHeight };
+						 ymax++;
+					}
+					return obj;					
+				}
+				else{
+					let obj = {key: key, y1: y0_positive, y0: y0_positive += barHeight };
+					ymax++;
+					if (newArr[0] == urlMap[key] && isHighlight) {
+						obj.highlight = true;
+						newArr.shift();
+					}
+					return obj;
+				}
+			})
+		})
+
+
+		//var y_min = d3.min(data, function(d) { return Object.keys(d).length});
+		//var y_max = d3.max(data, function(d){ return Object.keys(d).length});
+
+		var datestart = 0;
+		var dateend = Object.keys(data).length;
+		if(y_min + y_max > 90)
+			height = 400 + (y_min + y_max - 90)*5;
 		var x = d3.scaleLinear()
 		.range([0, width]);
 
@@ -62,37 +128,10 @@ function plotStacked(index, isHighlight) {
 
 		var center = d3.scaleLinear()
 			.range([0, width]);
-
-		var color = d3.scaleOrdinal()
-			.range(["#DBDB8D", "#FFBB78", "#FF9896", "#2F4F4F","#98DF8A", "#C5B0D5", "#AEC7E8", "#F7B6D2","#FFFF38", "#0000CD", "#808000", "#483D8B"]);
-
 		var centerLine = d3.axisTop(center).ticks(0)
-		data.forEach(function(d,i) {
-
-			var y0_positive = 0;
-			var y0_negative = 0;
-			let newArr = highlights.slice();
-			d.components = data[i].map(function(key) {
-				let obj = {key: key, y1: y0_positive, y0: y0_positive += 1.5 };
-				if (newArr[0] == urlMap[key] && isHighlight) {
-					obj.highlight = true;
-					newArr.shift();
-				}
-				return obj;
-			})
-		})
-
-
-		var y_min = d3.min(data, function(d) { return Object.keys(d).length});
-		var y_max = d3.max(data, function(d){ return Object.keys(d).length});
-
-		var datestart = 0;
-		var dateend = Object.keys(data).length;
-
 		x.domain([0, dateend]);
-		y.domain([0, y_max]);
+		y.domain([-y_min, y_max]);
 		color.domain(data);
-
 		var svg = d3.select("#stacked").append("svg")
 									.attr("width", width + margin.left + margin.right)
 									.attr("height", height + margin.top + margin.bottom)
@@ -119,7 +158,7 @@ function plotStacked(index, isHighlight) {
 			.attr("y", function(d) { 
 				return y(d.y0); 
 			})
-			.attr("height", function(d) { return  Math.abs(y(d.y0) - y(d.y1)+0.5); })
+			.attr("height", function(d) { return  Math.abs(y(d.y0) - y(d.y1)+1); })
 			.attr('stroke', function(d) {
 				return d.highlight &&'#000000';
 				})
