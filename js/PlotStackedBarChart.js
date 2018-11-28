@@ -2,7 +2,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment) {
 	const highlights = [];
 	var check = 0;
 	let curData = mainPatternData[index];
-	
+	let onlyLast = false;
 	
 	for(let i in curData){
 		highlights.push(curData[i].label);
@@ -12,6 +12,9 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment) {
 	let startPoint;
 	if (clickedIndex > 0) {
 		startPoint = highlights[clickedIndex-1];
+	} else if (clickedSegment == 'last') {
+		startPoint = highlights[highlights.length-1];
+		onlyLast = true;
 	}
 	//console.log(highlights);
 	d3.select("#stacked").selectAll("*").remove();
@@ -79,6 +82,20 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment) {
 						if (clickedSegment == urlMap[d]) {
 							data[i] = result;
 							break
+						}
+					}
+					else if (onlyLast) {
+						if (newArr[0] == urlMap[d]) {
+							let found = newArr.shift();
+							if (found == startPoint) {
+								result.push(d);
+								startFound = true;
+							}
+						} else if (startFound) {
+							result.push(d);
+							if (j == dArr.length-1) {
+								data[i] = result;
+							}
 						}
 					} 
 					else {
