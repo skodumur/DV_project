@@ -18,27 +18,10 @@ let selectedIndex = -1;
 let isHighlight = false;
 let clickedLabel;
 let clickedSegment;
+let isDetailed = false;
 for (let prop in colorCode) {
     $('.legend').append(`<div class="foo" style = "background: ${colorCode[prop]}"></div><h6>${prop}</h6>`)
 }
-
-const menu = document.querySelector(".menu");
-let menuVisible = false;
-
-const toggleMenu = command => {
-  menu.style.display = command === "show" ? "block" : "none";
-  menuVisible = !menuVisible;
-};
-
-const setPosition = ({ top, left }) => {
-  menu.style.left = `${left}px`;
-  menu.style.top = `${top}px`;
-  toggleMenu("show");
-};
-
-window.addEventListener("click", e => {
-  if(menuVisible)toggleMenu("hide");
-});
 
 const settings = {
     curved: {
@@ -107,9 +90,14 @@ const settings = {
     },
 };
 const chart = new D3Funnel('#funnel');
-
-function onChange(category, index) {
-    //d3.select("#stacked").selectAll("*").remove();
+function clearAll() {
+    d3.select("#stacked").selectAll("*").remove();
+    d3.select("#barChart").selectAll("*").remove();
+    d3.select("#context").selectAll("*").remove();
+    d3.select("#funnel").selectAll("*").remove();
+}
+function onChange(contextCategory, contextIndex) {
+    clearAll();
     let options = {
         chart: {
             bottomWidth: 1 / 8,
@@ -146,36 +134,72 @@ function onChange(category, index) {
                           left: e.pageX,
                           top: e.pageY
                         };
-                        $('.menu-option').on('click', () => {
-                            let index = parseInt($(e.target).parents('.demo-funnel').attr('id').split('-')[1]);
-                            onChange(d.label.raw, index);
-                        })
+                        contextCategory = d.label.raw;
+                        contextIndex = parseInt($(e.target).parents('.demo-funnel').attr('id').split('-')[1])
                         setPosition(origin);
                         return false;
                 }
             }
         }
     };
-
-	let demo = $( ".demo" );
-	for(i in mainPatternData) {
-		demo.append( `<div> <i class="fa fa-users pattern-btn" my-val="${mainPatternData.length - i-1}"></i> <div class='demo-funnel' id='funnel-${mainPatternData.length - i-1}'>Test</div></div>` );
-	}
-	$(".pattern-btn").click((evt) => {
+    $('.menu-option').on('click', (e) => {
+        onChange(contextCategory, contextIndex);
+    })
+    let demo = $( "#funnel" );
+    let filtered = [];
+	for(let i = mainPatternData.length-1; i>-1; i--) {
+        let curData = mainPatternData[i];
+        if (!contextIndex || canInclude(contextCategory, curData)) {
+            filtered.push(i);
+        }
+    }
+    _.each(filtered, (i) => {
+        demo.append( `<div> <i class="fa fa-users pattern-btn" my-val="${i}"></i> <div class='demo-funnel' id='funnel-${i}'>Test</div></div>` );
+    })
+    _.each(filtered, (i) => {
+        let curChart  = new D3Funnel(`#funnel-${i}`);
+        curChart.draw(mainPatternData[i], options);
+    })
+    if (contextIndex) {
+        let context = new D3Funnel("#context");
+        $('context').append('<i class="fa fa-users context-icon" ></i>');
+            context.draw(mainPatternData[contextIndex], options); 
+    }
+ 	$(".pattern-btn").click((evt) => {
         selectedIndex = evt.currentTarget.getAttribute('my-val');
-             plotOverviewGraph(selectedIndex);
+        if (isDetailed) {
+            plotStacked(selectedIndex, isHighlight)
+        } else {
+            plotOverviewGraph(selectedIndex);
+        }
         $('.legend').css('display', 'block')
 	})
-    
-	$( ".demo-funnel" ).each(function( index ) {
-		let curChart  = new D3Funnel(this);
-        curChart.draw(mainPatternData[mainPatternData.length - index-1], options);
-        if(index == 5) {
-            let context = new D3Funnel(".context");
-            context.draw(mainPatternData[mainPatternData.length - index-1], options);
-        }
-	});
+
+const menu = document.querySelector(".menu");
+let menuVisible = false;
+
+const toggleMenu = command => {
+  menu.style.display = command === "show" ? "block" : "none";
+  menuVisible = !menuVisible;
+};
+
+const setPosition = ({ top, left }) => {
+  menu.style.left = `${left}px`;
+  menu.style.top = `${top}px`;
+  toggleMenu("show");
+};
+
+window.addEventListener("click", e => {
+  if(menuVisible)toggleMenu("hide");
+});
+
+
 }
+
+function canInclude(contextCategory, curData){
+   return  _.findIndex(curData, { 'label': contextCategory}) > -1;
+}
+
 function highlightEvent(evt) {
     isHighlight = evt.target.checked;
     plotStacked(selectedIndex, isHighlight)
@@ -185,12 +209,15 @@ function renderOverview(evt){
     d3.select("#stacked").selectAll("*").remove();
     d3.select("#barChart").selectAll("*").remove();
     if (evt.target.checked) {
+        isDetailed = true;
         plotStacked(selectedIndex, isHighlight)
     } else {
+        isDetailed = false;
         plotOverviewGraph(selectedIndex);
     }
 
 }
+
 $(function() {
     onChange();
 });
