@@ -1,4 +1,4 @@
-function plotStacked(index, isHighlight, clickedLabel, clickedSegment) {
+function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) {
 	const highlights = [];
 	var check = 0;
 	let curData = mainPatternData[index];
@@ -128,6 +128,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment) {
 		var color = d3.scaleOrdinal()
 			.range(["#DBDB8D", "#FFBB78", "#FF9896", "#2F4F4F","#98DF8A", "#C5B0D5", "#AEC7E8", "#F7B6D2","#FFFF38", "#0000CD", "#808000", "#483D8B"]);
 
+		
 		data.forEach(function(d,i) {
 
 			var y0_positive = 0;
@@ -141,7 +142,16 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment) {
 
 			ymin = 0;
 			ymax = 0;
-			d.components = data[i].map(function(key) {
+			if(orderBy){
+				arrIndex = d.length-1;
+				while(arrIndex >= 0){
+					if(urlMap[d[arrIndex]] != orderBy){
+						d.splice(arrIndex,1);
+					}
+					arrIndex -= 1;
+				}
+			}
+			d.components = d.map(function(key) {
 				if(clickedLabel){
 					let obj ;
 					if(check == 0){
@@ -177,10 +187,6 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment) {
 				}
 			})
 		})
-
-
-		//var y_min = d3.min(data, function(d) { return Object.keys(d).length});
-		//var y_max = d3.max(data, function(d){ return Object.keys(d).length});
 
 		var datestart = 0;
 		var dateend = Object.keys(data).length;

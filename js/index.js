@@ -13,6 +13,7 @@ const colorCode = {
 	"outdoors": "#483D8B",
 	"shoes": "#229f3dbf"
 }
+let detailedView = 0;
 let selectedIndex = -1;
 let isHighlight = false;
 let clickedLabel;
@@ -142,10 +143,14 @@ function onChange() {
 	}
 	$(".pattern-btn").click((evt) => {
         selectedIndex = evt.currentTarget.getAttribute('my-val');
-        plotStacked(selectedIndex)
+        if(detailedView == 0)
+            plotStacked(selectedIndex)
+        // plotStacked(selectedIndex, false, false, false, 'electronics')
+        if(detailedView == 1)
+             plotOverviewGraph(selectedIndex);
         $('.legend').css('display', 'block')
 	})
-		
+    
 	$( ".demo-funnel" ).each(function( index ) {
 		let curChart  = new D3Funnel(this);
         curChart.draw(mainPatternData[mainPatternData.length - index-1], options);
@@ -158,5 +163,15 @@ function onChange() {
 function highlightEvent(evt) {
     isHighlight = evt.target.checked;
     plotStacked(selectedIndex, isHighlight)
+}
+
+function renderOverview(){
+    d3.select("#stacked").selectAll("*").remove();
+    d3.select("#barChart").selectAll("*").remove();
+    if(detailedView == 1)
+        detailedView = 0;
+    else
+        detailedView = 1;
+    console.log("check")
 }
 onChange();
