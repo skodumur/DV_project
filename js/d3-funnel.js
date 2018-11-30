@@ -1082,6 +1082,18 @@ function () {
 
       var x = this.settings.width / 2;
       var y = this.getTextY(paths);
+     if (this.blocks[index].label.raw !== 'last') {
+      var numText = group.append('text').attrs({
+        x: x,
+        y: y-13,
+        fill: fill,
+        'font-size': this.settings.label.fontSize,
+        'text-anchor': 'middle',
+        'dominant-baseline': 'middle',
+        'pointer-events': 'none',
+		    'class': 'svg-text'
+      }).text(`${this.blocks[index].width} :${((this.blocks[index].width/2638)*100).toFixed(1)}%`);
+     }
       var text = group.append('text').attrs({
         x: x,
         y: y,
