@@ -22,7 +22,25 @@ for (let prop in colorCode) {
     console.log(prop, colorCode[prop]);
     $('.legend').append(`<div class="foo" style = "background: ${colorCode[prop]}"></div><h6>${prop}</h6>`)
 }
-$('.legend').append()
+
+const menu = document.querySelector(".menu");
+let menuVisible = false;
+
+const toggleMenu = command => {
+  menu.style.display = command === "show" ? "block" : "none";
+  menuVisible = !menuVisible;
+};
+
+const setPosition = ({ top, left }) => {
+  menu.style.left = `${left}px`;
+  menu.style.top = `${top}px`;
+  toggleMenu("show");
+};
+
+window.addEventListener("click", e => {
+  if(menuVisible)toggleMenu("hide");
+});
+
 const settings = {
     curved: {
         chart: {
@@ -91,21 +109,8 @@ const settings = {
 };
 const chart = new D3Funnel('#funnel');
 
-function onChange() {
-    let data = [];
-
-    data = [[
-        { label: 'Login', value: 12000 ,  },
-        { label: 'Profile', value: 4000, backgroundColor: '#898d8f' },
-        { label: 'Products', value: 8000, backgroundColor: '#898d8f' },
-        { label: 'Payment', value: 1500, backgroundColor: '#898d8f' },
-    ], [
-        { label: 'Login', value: 10000, backgroundColor: '#898d8f' },
-        { label: 'Profile', value: 7000, backgroundColor: '#898d8f' },
-        { label: 'Products', value: 3500 , backgroundColor: '#898d8f'},
-        { label: 'Payment', value:1500 , backgroundColor: '#898d8f'},
-    ]];
-
+function onChange(category, index) {
+    //d3.select("#stacked").selectAll("*").remove();
     let options = {
         chart: {
             bottomWidth: 1 / 8,
@@ -134,9 +139,25 @@ function onChange() {
                     clickedLable = d;
                     plotStacked(selectedIndex, isHighlight, clickedLable);
                 }
+            },
+            segmentClick: {
+                mySegmentClick(d,num, v, e) {
+                        e.preventDefault();
+                        const origin = {
+                          left: e.pageX,
+                          top: e.pageY
+                        };
+                        $('.menu-option').on('click', () => {
+                            let index = parseInt($(e.target).parents('.demo-funnel').attr('id').split('-')[1]);
+                            onChange(d.label.raw, index);
+                        })
+                        setPosition(origin);
+                        return false;
+                }
             }
         }
     };
+
 	let demo = $( ".demo" );
 	for(i in mainPatternData) {
 		demo.append( `<div> <i class="fa fa-users pattern-btn" my-val="${mainPatternData.length - i-1}"></i> <div class='demo-funnel' id='funnel-${mainPatternData.length - i-1}'>Test</div></div>` );
@@ -174,4 +195,6 @@ function renderOverview(){
         detailedView = 1;
     console.log("check")
 }
-onChange();
+$(function() {
+    onChange();
+});

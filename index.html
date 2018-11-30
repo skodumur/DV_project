@@ -16,6 +16,11 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
+        <div class="menu">
+                <ul class="menu-options">
+                  <li class="menu-option">Compute</li>
+                </ul>
+              </div>
     <div class="col-11 row" style="height: 60px; padding: 10px; font-size:12px; background-color: rgb(224, 224, 224); margin: auto">
         <div class="col-2">
                 <label>Filter by: </label>
@@ -35,24 +40,6 @@
                         <option value="3">Three</option>
                       </select>
         </div>
-        <div class="col-2">
-                <label><b>Vertical Scale: </b></label>
-                <select class="custom-select">
-                        <option selected>Log</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                      </select>
-        </div>
-        <div class="col-2">
-                <label>Order By: </label>
-                <select class="custom-select">
-                        <option selected>Same Pages</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                      </select>
-        </div>
         <div class="col-2" style="margin-top: 10px;">
                 <label>Highligth key Events: </label>
                 <input type="checkbox" id="keyEvent" onchange="highlightEvent(event)">
@@ -68,7 +55,6 @@
 
     </div>
 	<div class="row" style="margin-top: 15px;">
-        
         <div class="col-2">
                 <i class="fa fa-users context-icon" ></i>
             <div class="context"></div>

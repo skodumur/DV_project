@@ -257,6 +257,7 @@ function () {
         tooltip: settings.tooltip,
         onBlockClick: settings.events.click.block,
         onLableClick: settings.events.lableClick.myFun,
+        onSegmentClick: settings.events.segmentClick.mySegmentClick,
       };
       this.setBlocks(data);
     }
@@ -843,6 +844,7 @@ function () {
           }
 
           target.style('cursor', 'pointer').on('click', _this4.settings.onBlockClick);
+          target.on('contextmenu', _this4.settings.onSegmentClick);
         });
       } // Add tooltips
 
@@ -2912,7 +2914,7 @@ function contextListener(listener, index, group) {
     var event0 = event; // Events can be reentrant (e.g., focus).
     event = event1;
     try {
-      listener.call(this, this.__data__, index, group);
+      listener.call(this, this.__data__, index, group, event1);
     } finally {
       event = event0;
     }
