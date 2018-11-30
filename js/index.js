@@ -19,7 +19,6 @@ let isHighlight = false;
 let clickedLabel;
 let clickedSegment;
 for (let prop in colorCode) {
-    console.log(prop, colorCode[prop]);
     $('.legend').append(`<div class="foo" style = "background: ${colorCode[prop]}"></div><h6>${prop}</h6>`)
 }
 
@@ -164,10 +163,6 @@ function onChange(category, index) {
 	}
 	$(".pattern-btn").click((evt) => {
         selectedIndex = evt.currentTarget.getAttribute('my-val');
-        if(detailedView == 0)
-            plotStacked(selectedIndex)
-        // plotStacked(selectedIndex, false, false, false, 'electronics')
-        if(detailedView == 1)
              plotOverviewGraph(selectedIndex);
         $('.legend').css('display', 'block')
 	})
@@ -186,15 +181,29 @@ function highlightEvent(evt) {
     plotStacked(selectedIndex, isHighlight)
 }
 
-function renderOverview(){
+function renderOverview(evt){
     d3.select("#stacked").selectAll("*").remove();
     d3.select("#barChart").selectAll("*").remove();
-    if(detailedView == 1)
-        detailedView = 0;
-    else
-        detailedView = 1;
-    console.log("check")
+    if (evt.target.checked) {
+        plotStacked(selectedIndex, isHighlight)
+    } else {
+        plotOverviewGraph(selectedIndex);
+    }
+
 }
 $(function() {
     onChange();
 });
+
+function updateFilter(evt) {
+    if (evt.target.value == 1) {
+        $('#browser').removeClass('hide');
+        $('#location').addClass('hide');
+    } else if (evt.target.value == 2) {
+        $('#browser').addClass('hide');
+        $('#location').removeClass('hide');
+    } else {
+        $('#browser').addClass('hide');
+        $('#location').addClass('hide');
+    }
+}

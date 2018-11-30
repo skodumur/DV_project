@@ -22,35 +22,75 @@
                 </ul>
               </div>
     <div class="col-11 row" style="height: 60px; padding: 10px; font-size:12px; background-color: rgb(224, 224, 224); margin: auto">
+            <div class="col-2">
+                    <label>Dataset: </label>
+                    <select class="custom-select">
+                            <option selected>Shopping Website</option>
+                            <option value="1">ECommerce</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
+            </div>
         <div class="col-2">
                 <label>Filter by: </label>
-                <select class="custom-select">
+                <select class="custom-select" onchange="updateFilter(event)">
                         <option selected>All</option>
                         <option value="1">Browser</option>
-                        <option value="2">Time Frame</option>
-                        <option value="3">Location</option>
+                        <option value="2">Location</option>
                       </select>
         </div>
         <div class="col-2">
-            <label>Dataset: </label>
-                <select class="custom-select">
-                        <option selected>Shopping Website</option>
-                        <option value="1">ECommerce</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                      </select>
+            <div id="browser" class="hide">
+                    <label>Browser: </label>
+                    <select class="custom-select">
+                            <option selected>All</option>
+                            <option value="1">Chrome</option>
+                            <option value="2">Firefox</option>
+                            <option value="3">IE</option>
+                          </select>
+            </div>
+            <div id="location" class="hide">
+                    <label>Location: </label>
+                    <select class="custom-select">
+                            <option selected>All</option>
+                            <option value="1">USA</option>
+                            <option value="2">INDIA</option>
+                            <option value="3">AFRICA</option>
+                          </select>
+            </div>
         </div>
-        <div class="col-2" style="margin-top: 10px;">
-                <label>Highligth key Events: </label>
-                <input type="checkbox" id="keyEvent" onchange="highlightEvent(event)">
-        </div>
-        <div class="col-2" style="display:flex">
-            <label style="margin-top: 5px;"> Overview &nbsp;</label>
-                <label class="switch" onchange="renderOverview(event)">
-                        <input type="checkbox" checked>
-                        <span class="slider round"></span>
-                      </label>
-            <label style="margin-top: 5px;">&nbsp;Detailed</label>
+        <div class="col-6 float-right">
+                <div class="col-4 float-right" >
+                        <label>Category:</label>
+                        <select class="custom-select">
+                                <option selected>All</option>
+                                <option value="1">Accessories</option>
+                                <option value="2">Automotive</option>
+                                <option value="3">Books</option>
+                                <option value="4">Clothing</option>
+                                <option value="5">Computers</option>
+                                <option value="6">Electronics</option>
+                                <option value="7">Games</option>
+                                <option value="8">Grocery</option>
+                                <option value="9">Handbags</option>
+                                <option value="10">Home</option>
+                                <option value="11">Movies</option>
+                                <option value="12">Outdoors</option>
+                                <option value="13">Shoes</option>
+                              </select>
+                    </div>
+                    <div class="col-4 float-right" style="margin-top: 10px;">
+                            <label>Highligth key Events: </label>
+                            <input type="checkbox" id="keyEvent" onchange="highlightEvent(event)">
+                    </div>
+                    <div class="col-4 float-right" style="display:flex">
+                        <label style="margin-top: 5px;"> Overview &nbsp;</label>
+                            <label class="switch" onchange="renderOverview(event)">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                  </label>
+                        <label style="margin-top: 5px;">&nbsp;Detailed</label>
+                    </div>
         </div>
 
     </div>
