@@ -1,4 +1,4 @@
-function barchargraph(size, index){
+function barchargraph(size, index, counts){
   d3.select("#barChart").selectAll("*").remove();
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = size - margin.left - margin.right,
@@ -22,42 +22,49 @@ var svg1 = d3.select("#barChart").append("svg")
   .append("g")
     .attr("transform", 
           "translate(" + margin.left + "," + margin.top + ")");
-
+if (counts && counts.length) {
+  data = _.map(counts, (c, i) => {
+    return {"sequence": "sequence" + (i+1), "count": c};
+  })
+  data.columns = ["sequence", "count"];
+  plot(data);
+} else {
 // get the data
 d3.csv(`data/vistorCount${index}.csv`, function(error, data) {
   if (error) throw error;
-
-  // format the data
-  data.forEach(function(d) {
-    d.count = +d.count;
-  });
-
-  // Scale the range of the data in the domains
-  x.domain(data.map(function(d) { return d.sequence; }));
-  // y.domain([0, d3.max(data, function(d) { return d.count; })]);
-  y.domain([0, 3]);
-
-
-  // append the rectangles for the bar chart
-  svg1.selectAll(".bar")
-      .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.sequence); })
-      .attr("width", 5)
-      .attr("y", function(d) { return y(d.count); })
-      .attr("height", function(d) { return height - y(d.count); });
-
-  // add the x Axis
-  // svg1.append("g")
-  //     .attr("transform", "translate(0," + height + ")")
-  //     .call(d3.axisBottom(x));
-
-  // add the y Axis
-  svg1.append("g")
-      .call(yAxis);
-
-
-
+  plot(data);
 });
+}
+
+function plot(data) {
+    // format the data
+    data.forEach(function(d) {
+      d.count = +d.count;
+    });
+  
+    // Scale the range of the data in the domains
+    x.domain(data.map(function(d) { return d.sequence; }));
+    // y.domain([0, d3.max(data, function(d) { return d.count; })]);
+    y.domain([0, 3]);
+  
+  
+    // append the rectangles for the bar chart
+    svg1.selectAll(".bar")
+        .data(data)
+      .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d.sequence); })
+        .attr("width", 5)
+        .attr("y", function(d) { return y(d.count); })
+        .attr("height", function(d) { return height - y(d.count); });
+  
+    // add the x Axis
+    // svg1.append("g")
+    //     .attr("transform", "translate(0," + height + ")")
+    //     .call(d3.axisBottom(x));
+  
+    // add the y Axis
+    svg1.append("g")
+        .call(yAxis);
+}
 }

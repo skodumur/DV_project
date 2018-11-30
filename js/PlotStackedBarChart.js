@@ -3,6 +3,8 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 	var check = 0;
 	let curData = mainPatternData[index];
 	let onlyLast = false;
+	let results = [];
+	let counts = [];
 	
 	for(let i in curData){
 		highlights.push(curData[i].label);
@@ -81,6 +83,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 						result.push(d);
 						if (clickedSegment == urlMap[d]) {
 							data[i] = result;
+							checkExists(result);
 							break
 						}
 					}
@@ -95,6 +98,8 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 							result.push(d);
 							if (j == dArr.length-1) {
 								data[i] = result;
+								checkExists(result);
+								break;
 							}
 						}
 					} 
@@ -107,6 +112,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 							} else if (found == clickedSegment) {
 								result.push(d);
 								data[i] = result;
+								checkExists(result);
 								break;
 							}
 						} else if (startFound) {
@@ -115,7 +121,32 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 					}
 				}
 			};
+			data = results;
 		}
+		function checkExists(curArr) {
+			let found = false;
+			_.forEach(results, (item, index) => {
+				if (arraysEqual(item, curArr)) {
+					found = true;
+					counts[index]++;
+				}
+			});
+			if (!found) {
+				results.push(curArr);
+				counts[results.length-1] = 1;
+			}
+		}
+		function arraysEqual(arr1, arr2) {
+			if(arr1.length !== arr2.length)
+				return false;
+			for(var i = arr1.length; i--;) {
+				if(arr1[i] !== arr2[i])
+					return false;
+			}
+
+			return true;
+		}
+
 		var x = d3.scaleLinear()
 		.range([0, width]);
 
@@ -274,7 +305,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 				// return text;
 			})
 			.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
-	barchargraph(size, index);
+	barchargraph(size, index, counts);
 
 	})
 }	
