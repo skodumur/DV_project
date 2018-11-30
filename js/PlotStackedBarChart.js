@@ -19,7 +19,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 	//console.log(highlights);
 	d3.select("#stacked").selectAll("*").remove();
 	var margin = {top: 20, right: 20, bottom: 30, left: 40};
-	let barHeight = 1;
+	let barHeight = 1.25;
 	var counter = 0;
 	var urlMap = {
 		"url": "category",
@@ -226,8 +226,10 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 				.style("position", "absolute")
 				.style("z-index", "10")
 				.style("font-size", "12px")
-				.style("width", "100px")
-				.style("visibility", "hidden");
+				.style("width", "310px")
+				.style("visibility", "hidden")
+				.style("border", "solid 1px")
+				.style("background-color", "white");
 		entry.selectAll("rect")
 			.data(function(d) {
 				return d.components;
@@ -248,11 +250,28 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 			.on("mouseover", function(){return tooltip.style("visibility", "visible");})
 			.on("mousemove", function(d,a,b,event){
 				let str = '';
-				for (let s = a-5; s<a+6; s++) {
-					str += b[s].__data__.key;
-					str += '\n';
+				let i = 0, j = b.length;
+				if( a-5 > 0 )
+					i = a-5;
+				if( a+5 < j )
+					j = a+5
+				for (let s = i; s<j-1; s++) {
+					let colorBox = colorCode[urlMap[b[s].__data__.key]];
+					if(s == a){
+						str += '<div class="foo" style = "background:' +colorBox+'"></div>';
+						str += '<label><b>'+b[s].__data__.key+'</b></label>';
+						// str += b[s].__data__.key;
+						// str += '</b>';
+						// str += '\n';
+					}
+					else{
+						str += '<div class="foo" style = "background:'+colorBox+'"></div>';
+						str += '<label>'+b[s].__data__.key+'</label>';
+						// str += '\n';
+					}
 				}
-				return tooltip.text(str).style("top", (event.offsetY+120)+"px").style("left",(event.offsetX)+"px");
+				return tooltip.html(str).style("top", (event.offsetY+180)+"px").style("left",(event.offsetX)+"px");
+				// return text;
 			})
 			.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 	barchargraph(size, index);
