@@ -12,7 +12,7 @@ var y = d3.scaleLinear()
           .range([height, 0]);
 
 var yAxis = d3.axisLeft().scale(y)
-    .ticks(3);
+    .ticks(5);
 // append the svg object to the body of the page
 // append a 'group' element to 'svg'
 // moves the 'group' element to the top left margin

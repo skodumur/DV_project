@@ -81,7 +81,7 @@ function plotOverviewGraph(index, selectedBrowser, selectedLocation){
                 data[i].components = [];
                 let yVal = 0;
                 for (let key in colorMap) {
-                    data[i].components.push({key: key, y1: yVal, y0: yVal += colorMap[key]})
+                    data[i].components.push({key: key, y0: yVal, y1: yVal -= colorMap[key]})
                 }
             }
             
@@ -100,7 +100,7 @@ function plotOverviewGraph(index, selectedBrowser, selectedLocation){
             .range([0, width]);
         var centerLine = d3.axisTop(center).ticks(0)
         x.domain([0, dateend]);
-        y.domain([-y_min, y_max]);
+        y.domain([-y_max, y_min]);
         color.domain(data);
         var svg = d3.select("#stacked").append("svg")
                                     .attr("width", width + margin.left + margin.right)
@@ -136,7 +136,7 @@ function plotOverviewGraph(index, selectedBrowser, selectedLocation){
             .attr("y", function(d) { 
                 return y(d.y0); 
             })
-            .attr("height", function(d) { return  Math.abs(y(d.y0) - y(d.y1)+1); })
+            .attr("height", function(d) { return  Math.abs(y(d.y0) - y(d.y1))-1; })
             .style("fill", function(d) { 
                 return colorCode[d.key]; 
             } )
