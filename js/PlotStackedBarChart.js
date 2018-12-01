@@ -20,7 +20,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, filterCat
 	}
 	//console.log(highlights);
 	d3.select("#stacked").selectAll("*").remove();
-	var margin = {top: 20, right: 20, bottom: 30, left: 40};
+	var margin = {top: 0, right: 20, bottom: 30, left: 40};
 	let barHeight = 1.25;
 	var counter = 0;
 	var urlMap = {
@@ -232,7 +232,6 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, filterCat
 			})
 		})
 
-		var datestart = 0;
 		var dateend = Object.keys(data).length;
 		if(y_min + y_max > 90)
 			height = 400 + (y_min + y_max - 90)*5;

@@ -125,8 +125,8 @@ function onChange(contextCategory, contextIndex) {
             },
             lableClick: {
                 myFun(d) {
-                    clickedLable = d;
-                    plotStacked(selectedIndex, isHighlight, clickedLable);
+                    clickedLabel = d;
+                    plotStacked(selectedIndex, isHighlight, clickedLabel);
                 }
             },
             segmentClick: {
@@ -204,7 +204,7 @@ function canInclude(contextCategory, curData){
 
 function highlightEvent(evt) {
     isHighlight = evt.target.checked;
-    plotStacked(selectedIndex, isHighlight)
+    plotStacked(selectedIndex, isHighlight, clickedLabel, clickedSegment)
 }
 
 function renderOverview(evt){

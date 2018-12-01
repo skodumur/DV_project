@@ -1,6 +1,6 @@
 function plotOverviewGraph(index, selectedBrowser, selectedLocation){
     d3.select("#stacked").selectAll("*").remove();
-	var margin = {top: 20, right: 20, bottom: 30, left: 40};
+	var margin = {top: 0, right: 20, bottom: 30, left: 40};
 	let barHeight = 1;
 	var counter = 0;
 	var urlMap = {
