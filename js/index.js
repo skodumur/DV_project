@@ -161,8 +161,8 @@ function onChange(contextCategory, contextIndex) {
         curChart.draw(mainPatternData[i], options);
     })
     if (contextIndex) {
+        $(".context-icon").removeClass('hide');
         let context = new D3Funnel("#context");
-        $('context').append('<i class="fa fa-users context-icon" ></i>');
             context.draw(mainPatternData[contextIndex], options); 
     }
  	$(".pattern-btn").click((evt) => {
