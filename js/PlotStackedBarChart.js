@@ -245,7 +245,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 			.attr("transform", "translate(0," + y(0) + ")")
 			.call(centerLine);
 
-		var tooltip = svg.append("g").style("display", "none");
+		// var tooltip = svg.append("g").style("display", "none");
 		var entry = svg.selectAll(".entry")
 			.data(data)
 			.enter().append("g")
@@ -274,7 +274,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 			.attr('stroke', function(d) {
 				return d.highlight &&'#000000';
 				})
-			.attr("stroke-width", 2)
+			.attr("stroke-width", 1)
 			.style("fill", function(d) { 
 				return colorCode[urlMap[d.key]]; 
 			} )
@@ -291,18 +291,13 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 					if(s == a){
 						str += '<div class="foo" style = "background:' +colorBox+'"></div>';
 						str += '<label><b>'+b[s].__data__.key+'</b></label>';
-						// str += b[s].__data__.key;
-						// str += '</b>';
-						// str += '\n';
 					}
 					else{
 						str += '<div class="foo" style = "background:'+colorBox+'"></div>';
 						str += '<label>'+b[s].__data__.key+'</label>';
-						// str += '\n';
 					}
 				}
 				return tooltip.html(str).style("top", (event.offsetY+180)+"px").style("left",(event.offsetX)+"px");
-				// return text;
 			})
 			.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 	barchargraph(size, index, counts);

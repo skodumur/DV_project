@@ -222,6 +222,21 @@ $(function() {
     onChange();
 });
 
+$(function(){
+    $("#categorySelect").change(function () {
+        // var selectedText = $(this).find("option:selected").text();
+        var selectedValue = $(this).val();
+        if(selectedValue == "All"){
+            if (isDetailed) {
+                plotStacked(selectedIndex, isHighlight)
+            } else {
+                plotOverviewGraph(selectedIndex);
+            }
+        }
+        else
+            plotStacked(selectedIndex, false, false, false, selectedValue);
+    });
+})
 function updateFilter(evt) {
     if (evt.target.value == 1) {
         $('#browser').removeClass('hide');

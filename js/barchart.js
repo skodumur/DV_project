@@ -45,7 +45,7 @@ function plot(data) {
     // Scale the range of the data in the domains
     x.domain(data.map(function(d) { return d.sequence; }));
     // y.domain([0, d3.max(data, function(d) { return d.count; })]);
-    y.domain([0, 3]);
+    y.domain([0, 10]);
   
   
     // append the rectangles for the bar chart

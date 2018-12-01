@@ -100,13 +100,21 @@ function plotOverviewGraph(index){
             .attr("transform", "translate(0," + y(0) + ")")
             .call(centerLine);
 
-        var tooltip = svg.append("g").style("display", "none");
         var entry = svg.selectAll(".entry")
             .data(data)
             .enter().append("g")
             .attr("class", "g")
             .attr("transform", function(d) {
                 return "translate(" + x(counter++) + ", 0)"; });
+        var tooltip = d3.select("#stacked")
+            .append("div")
+            .style("position", "absolute")
+            .style("z-index", "10")
+            .style("font-size", "12px")
+            .style("width", "80px")
+            .style("visibility", "hidden")
+            .style("border", "solid 1px")
+            .style("background-color", "white");
         entry.selectAll("rect")
             .data(function(d) {
                 return d.components;
@@ -117,43 +125,14 @@ function plotOverviewGraph(index){
                 return y(d.y0); 
             })
             .attr("height", function(d) { return  Math.abs(y(d.y0) - y(d.y1)+1); })
-            // .attr('stroke', function(d) {
-            //     return d.highlight &&'#000000';
-            //     })
-            // .attr("stroke-width", 2)
             .style("fill", function(d) { 
                 return colorCode[d.key]; 
             } )
-            .on("mouseover", function() { 
-                console.log("mouseover")
-                tooltip.style("display", null); 
-            })
-            .on("mouseout", function() {
-                console.log("mouseout") 
-                tooltip.style("display", "none"); 
-            })
-                .on("mousemove", function(d) {
-                console.log("mousemove")
-                var xPosition = d3.mouse(this)[0] - 1;
-                var yPosition = d3.mouse(this)[1] - 1;
-                tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-                tooltip.select("text").text(d.key);
-                });
 
-        
-            
-        tooltip.append("rect")
-            .attr("width", 60)
-            .attr("height", 60)
-            .attr("fill", "white")
-            .style("opacity", 0.5);
-        
-        tooltip.append("text")
-            .attr("x", 30)
-            .attr("dy", "1.2em")
-            .style("text-anchor", "middle")
-            .attr("font-size", "12px")
-            .attr("font-weight", "bold");
+            .on("mouseover", function(){return tooltip.style("visibility", "visible");})
+            .on("mousemove", function(d,a,b,event){
+                return tooltip.html(b[a].__data__.key).style("top", (event.offsetY+180)+"px").style("left",(event.offsetX)+"px");
+            })
         barchargraph(size, index);
     
         })
