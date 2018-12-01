@@ -199,29 +199,29 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, filterCat
 				if(clickedLabel){
 					if(check == 0){
 						if(newArr[0] == urlMap[key] && clickedLabel == urlMap[key]){
-							obj = {key: key, y1: y0_positive, y0: y0_positive += barHeight };
+							obj = {key: key, y1: y0_positive, y0: y0_positive -= barHeight };
 							ymax++;
 							check = 1;
 						}
 						else if(newArr[0] == urlMap[key]){
 							newArr.shift();
-							obj = {key: key, y0: y0_negative, y1: y0_negative -= barHeight };
+							obj = {key: key, y0: y0_negative, y1: y0_negative += barHeight };
 							obj.highlight = !!isHighlight;
 							ymin++;
 						}
 						else{
-							obj = {key: key, y0: y0_negative, y1: y0_negative -= barHeight };
+							obj = {key: key, y0: y0_negative, y1: y0_negative += barHeight };
 							ymin++
 						}
 					}
 					else{
-						 obj = {key: key, y1: y0_positive, y0: y0_positive += barHeight };
+						 obj = {key: key, y1: y0_positive, y0: y0_positive -= barHeight };
 						 ymax++;
 					}
 					//return obj;					
 				}
 				else{
-					obj = {key: key, y1: y0_positive, y0: y0_positive += barHeight };
+					obj = {key: key, y1: y0_positive, y0: y0_positive -= barHeight };
 					ymax++;
 				}
 				if (newArr[0] == urlMap[key] && isHighlight) {
@@ -246,7 +246,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, filterCat
 			.range([0, width]);
 		var centerLine = d3.axisTop(center).ticks(0)
 		x.domain([0, dateend]);
-		y.domain([-y_min, y_max]);
+		y.domain([-y_max, y_min]);
 		color.domain(data);
 		var svg = d3.select("#stacked").append("svg")
 									.attr("width", width + margin.left + margin.right)
@@ -283,7 +283,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, filterCat
 			.attr("y", function(d) { 
 				return y(d.y0); 
 			})
-			.attr("height", function(d) { return  Math.abs(y(d.y0) - y(d.y1)+1); })
+			.attr("height", function(d) { return  Math.abs(y(d.y0) - y(d.y1)-1); })
 			.attr('stroke', function(d) {
 				return d.highlight &&'#000000';
 				})
