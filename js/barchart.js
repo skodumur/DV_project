@@ -12,7 +12,7 @@ var y = d3.scaleLinear()
           .range([height, 0]);
 
 var yAxis = d3.axisLeft().scale(y)
-    .ticks(5);
+    .ticks(6);
 // append the svg object to the body of the page
 // append a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
@@ -57,7 +57,7 @@ function plot(data) {
     // Scale the range of the data in the domains
     x.domain(data.map(function(d) { return d.sequence; }));
     // y.domain([0, d3.max(data, function(d) { return d.count; })]);
-    y.domain([0, 10]);
+    y.domain([0,6]);
   
   
     // append the rectangles for the bar chart
@@ -65,6 +65,7 @@ function plot(data) {
         .data(data)
       .enter().append("rect")
         .attr("class", "bar")
+        .attr("fill", "#9b9999")
         .attr("x", function(d) { return x(d.sequence); })
         .attr("width", 5)
         .attr("y", function(d) { return y(d.count); })
