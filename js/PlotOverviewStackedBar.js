@@ -38,7 +38,7 @@ function plotOverviewGraph(index){
 		"http://www.acme.com/SH559056/VD55181666": "handbags"
     }
     let curpos = 0;
-    d3.json(`data/sequences${index}.json`, function(error, data) {
+    d3.json(`data/data1/sequences${index}.json`, function(error, data) {
 		var size;
 		let y_min = y_max = 0;
 		if(data.urls.length > 60){

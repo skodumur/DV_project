@@ -58,7 +58,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 		"http://www.acme.com/SH559056/VD55181666": "handbags"
 	}
 
-	d3.json(`data/sequences${index}.json`, function(error, data) {
+	d3.json(`data/data1/sequences${index}.json`, function(error, data) {
 		var size;
 		let ymin = ymax = 0;
 		let y_min = y_max = 0;
