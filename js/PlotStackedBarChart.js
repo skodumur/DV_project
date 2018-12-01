@@ -195,8 +195,8 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, filterCat
 				}
 			}
 			d.components = d.map(function(key) {
+				let obj;
 				if(clickedLabel){
-					let obj ;
 					if(check == 0){
 						if(newArr[0] == urlMap[key] && clickedLabel == urlMap[key]){
 							obj = {key: key, y1: y0_positive, y0: y0_positive += barHeight };
@@ -206,6 +206,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, filterCat
 						else if(newArr[0] == urlMap[key]){
 							newArr.shift();
 							obj = {key: key, y0: y0_negative, y1: y0_negative -= barHeight };
+							obj.highlight = !!isHighlight;
 							ymin++;
 						}
 						else{
@@ -217,17 +218,17 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, filterCat
 						 obj = {key: key, y1: y0_positive, y0: y0_positive += barHeight };
 						 ymax++;
 					}
-					return obj;					
+					//return obj;					
 				}
 				else{
-					let obj = {key: key, y1: y0_positive, y0: y0_positive += barHeight };
+					obj = {key: key, y1: y0_positive, y0: y0_positive += barHeight };
 					ymax++;
-					if (newArr[0] == urlMap[key] && isHighlight) {
-						obj.highlight = true;
-						newArr.shift();
-					}
-					return obj;
 				}
+				if (newArr[0] == urlMap[key] && isHighlight) {
+					obj.highlight = true;
+					newArr.shift();
+				}
+				return obj;
 			})
 		})
 
