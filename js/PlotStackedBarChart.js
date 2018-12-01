@@ -299,7 +299,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, filterCat
 					i = a-5;
 				if( a+5 < j )
 					j = a+5
-				for (let s = j - 1; s>=i; s--) {
+				for (let s = i; s<j; s++) {
 					let colorBox = colorCode[urlMap[b[s].__data__.key]];
 					if(s == a){
 						str += '<div class="foo" style = "background:' +colorBox+'"></div>';

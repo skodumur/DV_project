@@ -25,22 +25,19 @@
             <div class="col-2">
                     <label>Dataset: </label>
                     <select class="custom-select">
-                            <option selected>Shopping Website</option>
-                            <option value="1">ECommerce</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            <option value="1" selected>E-Commerce</option>
+                            <option value="2">Retail</option>
                           </select>
             </div>
         <div class="col-2">
                 <label>Filter by: </label>
                 <select class="custom-select" onchange="updateFilter(event)">
-                        <option selected>All</option>
-                        <option value="1">Browser</option>
+                        <option value="1" selected>Browser</option>
                         <option value="2">Location</option>
                       </select>
         </div>
         <div class="col-2">
-            <div id="browser" class="hide">
+            <div id="browser">
                     <label>Browser: </label>
                     <select class="custom-select" onchange="filterBrowser(event)">
                             <option selected>All</option>
