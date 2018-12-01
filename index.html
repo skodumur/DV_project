@@ -42,19 +42,19 @@
         <div class="col-2">
             <div id="browser" class="hide">
                     <label>Browser: </label>
-                    <select class="custom-select">
+                    <select class="custom-select" onchange="filterBrowser(event)">
                             <option selected>All</option>
-                            <option value="1">Chrome</option>
-                            <option value="2">Firefox</option>
-                            <option value="3">IE</option>
+                            <option value="Firefox">Firefox</option>
+                            <option value="Safari">Safari</option>
+                            <option value="Trident">Trident</option>
                           </select>
             </div>
             <div id="location" class="hide">
                     <label>Location: </label>
-                    <select class="custom-select">
+                    <select class="custom-select" onchange="filterLocation(event)">
                             <option selected>All</option>
-                            <option value="1">USA</option>
-                            <option value="2">INDIA</option>
+                            <option value="usa">USA</option>
+                            <option value="pri">PRI</option>
                             <option value="3">AFRICA</option>
                           </select>
             </div>
@@ -86,7 +86,7 @@
                     <div class="col-4 float-right" style="display:flex">
                         <label style="margin-top: 5px;"> Overview &nbsp;</label>
                             <label class="switch" onchange="renderOverview(event)">
-                                    <input type="checkbox">
+                                    <input type="checkbox" checked>
                                     <span class="slider round"></span>
                                   </label>
                         <label style="margin-top: 5px;">&nbsp;Detailed</label>

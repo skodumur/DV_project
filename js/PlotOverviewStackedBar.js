@@ -1,4 +1,4 @@
-function plotOverviewGraph(index){
+function plotOverviewGraph(index, selectedBrowser, selectedLocation){
     d3.select("#stacked").selectAll("*").remove();
 	var margin = {top: 20, right: 20, bottom: 30, left: 40};
 	let barHeight = 1;
@@ -39,16 +39,28 @@ function plotOverviewGraph(index){
     }
     let curpos = 0;
     d3.json(`data/data1/sequences${index}.json`, function(error, data) {
+        let temp = [];
+		_.each(data.urls,(d)=>{
+            if (selectedBrowser && selectedBrowser != 'All') {
+                if (selectedBrowser == d.Browser)
+                    temp.push(d.sequences);
+            } else if (selectedLocation && selectedLocation != 'All') {
+				if (selectedLocation == d.Location)
+                    temp.push(d.sequences);
+			} else {
+				temp.push(d.sequences);
+			}
+		});
+		data = temp;
 		var size;
 		let y_min = y_max = 0;
-		if(data.urls.length > 60){
-			size = 600 + (data.urls.length - 60)*10;
+		if(data.length > 60){
+			size = 600 + (data.length - 60)*10;
 		}
 		else
 			size = 600;
 		var width = size - margin.left - margin.right;
 		var height = 400 - margin.top - margin.bottom; 
-        data = data.urls;
         var x = d3.scaleLinear()
 		.range([0, width]);
 
@@ -74,7 +86,7 @@ function plotOverviewGraph(index){
             }
             
         var datestart = 0;
-        var dateend = Object.keys(data).length;
+        var dateend = data.length;
         y_max = 100;
         // if(y_min + y_max > 90)
         //     height = 400 + (y_min + y_max - 90)*5;
@@ -133,7 +145,7 @@ function plotOverviewGraph(index){
             .on("mousemove", function(d,a,b,event){
                 return tooltip.html(b[a].__data__.key).style("top", (event.offsetY+180)+"px").style("left",(event.offsetX)+"px");
             })
-        barchargraph(size, index);
+        barchargraph(size, index, false, selectedBrowser, selectedLocation);
     
         })
 }

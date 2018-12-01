@@ -1,4 +1,4 @@
-function barchargraph(size, index, counts){
+function barchargraph(size, index, counts, selectedBrowser, selectedLocation){
   d3.select("#barChart").selectAll("*").remove();
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = size - margin.left - margin.right,
@@ -32,7 +32,19 @@ if (counts && counts.length) {
 // get the data
 d3.csv(`data/data1/vistorCount${index}.csv`, function(error, data) {
   if (error) throw error;
-  plot(data);
+  let temp = [];
+  _.each(data,(d)=>{
+    if (selectedBrowser && selectedBrowser != 'All') {
+      if (selectedBrowser == d.Browser)
+          temp.push(d);
+      } else if (selectedLocation && selectedLocation != 'All') {
+            if (selectedLocation == d.Location)
+              temp.push(d);
+      } else {
+          temp.push(d);
+      }
+  });
+  plot(temp);
 });
 }
 

@@ -13,12 +13,14 @@ const colorCode = {
 	"outdoors": "#483D8B",
 	"shoes": "#229f3dbf"
 }
-let detailedView = 0;
 let selectedIndex = -1;
 let isHighlight = false;
 let clickedLabel;
 let clickedSegment;
-let isDetailed = false;
+let isDetailed = true;
+let selectedCategory;
+let selectedBrowser;
+let selectedLocation;
 for (let prop in colorCode) {
     $('.legend').append(`<div class="foo" style = "background: ${colorCode[prop]}"></div><h6>${prop}</h6>`)
 }
@@ -170,7 +172,7 @@ function onChange(contextCategory, contextIndex) {
         if (isDetailed) {
             plotStacked(selectedIndex, isHighlight)
         } else {
-            plotOverviewGraph(selectedIndex);
+            plotOverviewGraph(selectedIndex, selectedBrowser, selectedLocation);
         }
         $('.legend').css('display', 'block')
 	})
@@ -213,20 +215,25 @@ function renderOverview(evt){
         plotStacked(selectedIndex, isHighlight)
     } else {
         isDetailed = false;
-        plotOverviewGraph(selectedIndex);
+        plotOverviewGraph(selectedIndex, selectedBrowser, selectedLocation);
     }
 
 }
 
-$(function() {
-    onChange();
-});
+function filterBrowser(evt) {
+    selectedBrowser = evt.target.value;
+    plotStacked(selectedIndex, isHighlight, clickedLabel, clickedSegment, false, selectedBrowser);
+}
+function filterLocation(evt) {
+    selectedLocation = evt.target.value;
+    plotStacked(selectedIndex, isHighlight, clickedLabel, clickedSegment, false, false, selectedLocation);
+}
 
 $(function(){
     $("#categorySelect").change(function () {
         // var selectedText = $(this).find("option:selected").text();
-        var selectedValue = $(this).val();
-        if(selectedValue == "All"){
+        selectedCategory = $(this).val();
+        if(selectedCategory == "All"){
             if (isDetailed) {
                 plotStacked(selectedIndex, isHighlight)
             } else {
@@ -234,7 +241,7 @@ $(function(){
             }
         }
         else
-            plotStacked(selectedIndex, false, false, false, selectedValue);
+            plotStacked(selectedIndex, false, false, false, selectedCategory);
     });
 })
 function updateFilter(evt) {
@@ -249,3 +256,8 @@ function updateFilter(evt) {
         $('#location').addClass('hide');
     }
 }
+
+
+$(function() {
+    onChange();
+});

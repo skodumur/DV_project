@@ -1,4 +1,4 @@
-function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) {
+function plotStacked(index, isHighlight, clickedLabel, clickedSegment, filterCategory, selectedBrowser, selectedLocation) {
 	const highlights = [];
 	var check = 0;
 	let curData = mainPatternData[index];
@@ -59,17 +59,29 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 	}
 
 	d3.json(`data/data1/sequences${index}.json`, function(error, data) {
+		let temp = [];
+		_.each(data.urls,(d)=>{
+			if (selectedBrowser && selectedBrowser != 'All') {
+                if (selectedBrowser == d.Browser)
+                    temp.push(d.sequences);
+            } else if (selectedLocation && selectedLocation != 'All') {
+				if (selectedLocation == d.Location)
+                    temp.push(d.sequences);
+			} else {
+				temp.push(d.sequences);
+			}
+		});
+		data = temp;
 		var size;
 		let ymin = ymax = 0;
 		let y_min = y_max = 0;
-		if(data.urls.length > 60){
-			size = 600 + (data.urls.length - 60)*10;
+		if(data.length > 60){
+			size = 600 + (data.length - 60)*10;
 		}
 		else
 			size = 600;
 		var width = size - margin.left - margin.right;
 		var height = 400 - margin.top - margin.bottom; 
-		data = data.urls;
 		if (startPoint || clickedSegment) {
 			for (i in data) {
 				let dArr = data[i];
@@ -173,10 +185,10 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 
 			ymin = 0;
 			ymax = 0;
-			if(orderBy){
+			if(filterCategory){
 				arrIndex = d.length-1;
 				while(arrIndex >= 0){
-					if(urlMap[d[arrIndex]] != orderBy){
+					if(urlMap[d[arrIndex]] != filterCategory){
 						d.splice(arrIndex,1);
 					}
 					arrIndex -= 1;
@@ -300,7 +312,7 @@ function plotStacked(index, isHighlight, clickedLabel, clickedSegment, orderBy) 
 				return tooltip.html(str).style("top", (event.offsetY+180)+"px").style("left",(event.offsetX)+"px");
 			})
 			.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
-	barchargraph(size, index, counts);
+	barchargraph(size, index, counts, selectedBrowser, selectedLocation);
 
 	})
 }	
